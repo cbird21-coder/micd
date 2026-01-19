@@ -63,7 +63,15 @@
         input[type=range] { width: 100%; height: 4px; accent-color: var(--accent); background: #333; border-radius: 2px; }
         .fixed-grid { display: flex; gap: 12px; margin-top: 10px; }
         .fixed-item { flex: 1; text-align: center; padding: 15px 0; background: #1a1a1a; border-radius: 8px; border: 1px solid var(--border); color: var(--success); font-size: 16px; font-weight: bold; transition: 0.3s; cursor: pointer; }
-        .fixed-item.done { background: transparent; color: #444; text-decoration: line-through; border-color: transparent; transform: scale(0.95); opacity: 0.6; }
+        .fixed-item.done { 
+    background: transparent; color: #444; 
+    text-decoration: line-through; border-color: transparent; 
+    transform: scale(0.95); opacity: 0.6; 
+}
+.fixed-item.excess { 
+    opacity: 0.15 !important; 
+    filter: grayscale(1) !important;
+}
         .archive-section { margin-top: 30px; border-top: 1px dashed #333; padding-top: 15px; }
         .archive-header { font-size: 12px; color: #555; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 10px 0; }
         .archive-list { display: none; padding-left: 5px; }
@@ -335,29 +343,51 @@
         function doChore(id) { db.today.chores.find(i => i.id === id).done = true; pickToast(QUOTES.chore); saveAndRender(); }
         function revive(type, id) { if(type==='work') db.today.work.find(i => i.id === id).done = false; else db.today.chores.find(i => i.id === id).done = false; saveAndRender(); }
         function toggleFixed(key) { if(db.today.givenUp) return; const wasFalse = !db.today.fixed[key]; db.today.fixed[key] = !db.today.fixed[key]; saveAndRender(); if (wasFalse) pickToast(QUOTES.cornerstone[key]); }
-        function renderFixed() { const f = db.today.fixed; ['read','clean','meditate'].forEach(k => { const el = document.getElementById('f-'+k); el.className = 'fixed-item'; if(f[k]) el.classList.add('done'); }); }
-        function calculateScore() {
+       // --- 核心：计分封顶算法 ---
+function calculateScore() {
     let s = 0;
-    
-    // 1. 获取当前模式的各分类子目标
     const mode = db.meta.mode;
+    
+    // 定义各模式下的权重上限
     const workTarget = (mode === 'weekday') ? 4 : (mode === 'weekend' ? 2 : 1);
     const choreTarget = (mode === 'weekday') ? 2 : 1;
-    const fixedTarget = 2; // 固定项权重始终为 2
+    const fixedTarget = 2; // 固定项始终执行 3选2 权重封顶
 
-    // 2. 计算工作得分 (封顶)
+    // 1. 工作得分封顶
     const actualWork = db.today.work.filter(w => w.done).reduce((a, b) => a + b.val, 0);
     s += Math.min(actualWork, workTarget);
 
-    // 3. 计算琐事得分 (封顶)
+    // 2. 琐事得分封顶
     const actualChores = db.today.chores.filter(c => c.done).length;
     s += Math.min(actualChores, choreTarget);
 
-    // 4. 计算固定项得分 (封顶)
+    // 3. 固定项得分封顶
     const actualFixed = Object.values(db.today.fixed).filter(v => v).length;
     s += Math.min(actualFixed, fixedTarget);
 
     return s;
+}
+
+// --- 核心：固定项视觉呈现逻辑 ---
+function renderFixed() {
+    const f = db.today.fixed;
+    // 计算已完成的数量
+    const count = Object.values(f).filter(v => v).length;
+
+    ['read','clean','meditate'].forEach(k => {
+        const el = document.getElementById('f-' + k);
+        // 先重置样式类
+        el.className = 'fixed-item';
+        
+        // 如果该项已完成
+        if(f[k]) {
+            el.classList.add('done');
+        } 
+        // 核心逻辑：如果已完成满 2 项，且当前项未完成，则应用极度透明样式
+        else if(count >= 2) {
+            el.classList.add('excess');
+        }
+    });
 }
         function updateProgress() { const pct = Math.min((calculateScore() / db.meta.target) * 100, 100); document.getElementById('progress-bar').style.width = pct + '%'; }
         
