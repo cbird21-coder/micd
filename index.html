@@ -336,7 +336,29 @@
         function revive(type, id) { if(type==='work') db.today.work.find(i => i.id === id).done = false; else db.today.chores.find(i => i.id === id).done = false; saveAndRender(); }
         function toggleFixed(key) { if(db.today.givenUp) return; const wasFalse = !db.today.fixed[key]; db.today.fixed[key] = !db.today.fixed[key]; saveAndRender(); if (wasFalse) pickToast(QUOTES.cornerstone[key]); }
         function renderFixed() { const f = db.today.fixed; ['read','clean','meditate'].forEach(k => { const el = document.getElementById('f-'+k); el.className = 'fixed-item'; if(f[k]) el.classList.add('done'); }); }
-        function calculateScore() { let s = 0; s += db.today.work.filter(w=>w.done).reduce((a,b)=>a+b.val, 0); s += db.today.chores.filter(c=>c.done).length; s += Math.min(Object.values(db.today.fixed).filter(v=>v).length, 2); return s; }
+        function calculateScore() {
+    let s = 0;
+    
+    // 1. 获取当前模式的各分类子目标
+    const mode = db.meta.mode;
+    const workTarget = (mode === 'weekday') ? 4 : (mode === 'weekend' ? 2 : 1);
+    const choreTarget = (mode === 'weekday') ? 2 : 1;
+    const fixedTarget = 2; // 固定项权重始终为 2
+
+    // 2. 计算工作得分 (封顶)
+    const actualWork = db.today.work.filter(w => w.done).reduce((a, b) => a + b.val, 0);
+    s += Math.min(actualWork, workTarget);
+
+    // 3. 计算琐事得分 (封顶)
+    const actualChores = db.today.chores.filter(c => c.done).length;
+    s += Math.min(actualChores, choreTarget);
+
+    // 4. 计算固定项得分 (封顶)
+    const actualFixed = Object.values(db.today.fixed).filter(v => v).length;
+    s += Math.min(actualFixed, fixedTarget);
+
+    return s;
+}
         function updateProgress() { const pct = Math.min((calculateScore() / db.meta.target) * 100, 100); document.getElementById('progress-bar').style.width = pct + '%'; }
         
         function handleStopLoss() {
