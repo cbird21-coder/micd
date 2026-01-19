@@ -25,21 +25,21 @@
             display: flex; flex-direction: column; transition: background 0.5s ease;
         }
 
-        /* 强化工作项字体 (加粗加大) */
         .font-work { font-weight: 800 !important; font-size: 1.15em !important; color: #fff; letter-spacing: 0.5px; }
-
-        /* 跑马灯 */
         .marquee-box { background: rgba(0,0,0,0.6); border-bottom: 1px solid var(--border); height: 36px; flex-shrink: 0; overflow: hidden; position: relative; }
         .marquee-text { position: absolute; white-space: nowrap; line-height: 36px; color: var(--accent); font-size: 13px; letter-spacing: 1px; animation: scroll 30s linear infinite; }
         @keyframes scroll { from { left: 100%; } to { left: -100%; } }
 
-        /* 按钮样式 */
         .btn { border: 1px solid #333; background: #1a1a1a; color: #888; padding: 6px 14px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: 0.2s; }
         .btn-primary { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
         .btn-revive { border-color: #444; color: #666; font-size: 11px; padding: 4px 10px; }
-        .btn-sort { padding: 2px 8px; font-size: 12px; color: #555; background: transparent; border: 1px solid #333; margin-left: 10px; border-radius: 4px; height: 24px; }
         
-        /* 1. 晨间 Gateway */
+        /* 排序按钮微缩化 */
+        .btn-sort { 
+            padding: 2px 6px; font-size: 11px; color: #555; background: transparent; 
+            border: 1px solid #333; margin-left: 5px; border-radius: 3px; height: 22px; flex-shrink: 0;
+        }
+        
         #gateway-modal { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; padding: 20px; transition: transform 0.4s ease; }
         #gateway-modal.closed { transform: translateY(-100%); pointer-events: none; }
         .gateway-header { font-size: 18px; color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; font-weight: bold; }
@@ -50,11 +50,9 @@
         .select-item { display: flex; align-items: center; padding: 14px 10px; border-bottom: 1px solid var(--border); }
         .select-item.selected { background: var(--accent-dim); }
         .select-checkbox { width: 18px; height: 18px; margin-right: 12px; accent-color: var(--accent); }
-        /* 惩罚项样式 */
         .select-item.penalty { background: rgba(207, 102, 121, 0.15); border-left: 3px solid var(--danger); pointer-events: none; }
         .select-item.penalty span { color: var(--danger); font-weight: bold; }
 
-        /* 2. 主界面 */
         #main-view { flex: 1; overflow-y: auto; padding: 15px 15px 180px 15px; }
         section { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 18px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         h2 { font-size: 12px; color: #666; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
@@ -63,15 +61,10 @@
         input[type=range] { width: 100%; height: 4px; accent-color: var(--accent); background: #333; border-radius: 2px; }
         .fixed-grid { display: flex; gap: 12px; margin-top: 10px; }
         .fixed-item { flex: 1; text-align: center; padding: 15px 0; background: #1a1a1a; border-radius: 8px; border: 1px solid var(--border); color: var(--success); font-size: 16px; font-weight: bold; transition: 0.3s; cursor: pointer; }
-        .fixed-item.done { 
-    background: transparent; color: #444; 
-    text-decoration: line-through; border-color: transparent; 
-    transform: scale(0.95); opacity: 0.6; 
-}
-.fixed-item.excess { 
-    opacity: 0.15 !important; 
-    filter: grayscale(1) !important;
-}
+        .fixed-item.done { background: transparent; color: #444; text-decoration: line-through; border-color: transparent; transform: scale(0.95); opacity: 0.6; }
+        /* 固定项权重锁定样式 */
+        .fixed-item.excess { opacity: 0.15 !important; filter: grayscale(1) !important; }
+
         .archive-section { margin-top: 30px; border-top: 1px dashed #333; padding-top: 15px; }
         .archive-header { font-size: 12px; color: #555; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 10px 0; }
         .archive-list { display: none; padding-left: 5px; }
@@ -79,24 +72,32 @@
         .archived-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; color: #555; font-size: 13px; text-decoration: line-through; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 底部导航 */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.95); border-top: 1px solid var(--border); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 1000; }
         .progress-line { flex: 1; height: 4px; background: #222; margin-right: 20px; border-radius: 2px; }
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--accent); }
 
-        /* 3. 任务池管理 */
+        /* 3. 任务池 6:4 布局重构 */
         #pool-manager { position: fixed; inset: 0; background: var(--bg); z-index: 3000; display: flex; flex-direction: column; padding: 20px; transform: translateY(100%); transition: 0.3s; }
         #pool-manager.active { transform: translateY(0); }
-        .pool-split-view { display: flex; flex: 1; gap: 15px; overflow: hidden; margin-top: 10px; }
-        .pool-col { flex: 1; display: flex; flex-direction: column; background: var(--card); border-radius: 8px; padding: 10px; border: 1px solid var(--border); }
-        .pool-col h3 { font-size: 12px; color: #666; margin: 0 0 10px 0; text-align: center; text-transform: uppercase; }
+        
+        .pool-split-view { display: flex; flex: 1; gap: 8px; overflow: hidden; margin-top: 10px; width: 100%; }
+        .pool-col { display: flex; flex-direction: column; background: var(--card); border-radius: 8px; padding: 8px; border: 1px solid var(--border); overflow: hidden; }
+        
+        /* 比例分配与文本截断关键 */
+        .pool-col:nth-child(1) { flex: 6; min-width: 0; }
+        .pool-col:nth-child(2) { flex: 4; min-width: 0; }
+        
+        .pool-col h3 { font-size: 11px; color: #666; margin: 0 0 10px 0; text-align: center; text-transform: uppercase; }
         .pool-scroll { flex: 1; overflow-y: auto; }
-        .pool-edit-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #222; font-size: 14px; transition: background 0.2s; }
+        .pool-edit-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 4px; border-bottom: 1px solid #222; font-size: 13px; transition: background 0.2s; overflow: hidden; }
         .pool-edit-item.deleting { background: rgba(207, 102, 121, 0.2); }
-        .pool-edit-item:first-of-type .btn-sort { display: none; }
-        .pool-text { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 10px; }
+        
+        /* 文本省略号逻辑 */
+        .pool-text { 
+            flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+            margin-right: 4px; font-size: 13px; min-width: 0; 
+        }
 
-        /* 4. Report Modal */
         #report-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 4000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; }
         #report-modal.active { opacity: 1; pointer-events: auto; }
         .report-card { background: var(--card); width: 85%; max-width: 320px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); text-align: center; transform: scale(0.9); transition: 0.3s; }
@@ -105,7 +106,6 @@
         .report-btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .report-streak { font-size: 12px; color: var(--success); margin-bottom: 5px; }
 
-        /* Toast */
         #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(30,30,30,0.95); backdrop-filter: blur(10px); border: 1px solid var(--accent); color: var(--accent); padding: 12px 24px; border-radius: 30px; font-size: 13px; opacity: 0; pointer-events: none; transition: 0.4s; white-space: nowrap; z-index: 5000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -222,7 +222,6 @@
         const DB_KEY = 'discipline_v12';
         const DB_VERSION = 1;
 
-        // Punishments for <60%
         const PENALTIES = ["跑步15分钟", "联系一位老友", "尝试一份新菜谱", "深蹲50个", "整理相册30分钟", "不看手机1小时", "写300字日记"];
         
         const QUOTES = {
@@ -255,7 +254,6 @@
             if(!db.setupComplete) initGateway();
             else { document.getElementById('gateway-modal').classList.add('closed'); renderMain(); if(db.today.stopLossStart > 0) startStopLossTimer(); }
 
-            // Register SW
             if ("serviceWorker" in navigator) {
                 navigator.serviceWorker.register("sw.js").catch(err => console.log(err));
             }
@@ -318,7 +316,9 @@
                 <div class="task-row work-task">
                     <div class="task-header"><span class="font-work">${w.name}</span><span id="v-${w.id}">${w.val}h</span></div>
                     <div style="display:flex; align-items:center; gap:10px">
-                        <input type="range" min="0" max="5" step="0.5" value="${w.val}" oninput="document.getElementById('v-${w.id}').innerText=this.value+'h'" onchange="updateWorkVal('${w.id}', this.value)"> 
+                        <input type="range" min="0" max="5" step="0.5" value="${w.val}" 
+                               oninput="document.getElementById('v-${w.id}').innerText=this.value+'h'" 
+                               onchange="updateWorkVal('${w.id}', this.value)"> 
                         <button class="btn btn-primary" onclick="doWork('${w.id}', this)">Done</button>
                     </div>
                 </div>`).join('');
@@ -343,52 +343,32 @@
         function doChore(id) { db.today.chores.find(i => i.id === id).done = true; pickToast(QUOTES.chore); saveAndRender(); }
         function revive(type, id) { if(type==='work') db.today.work.find(i => i.id === id).done = false; else db.today.chores.find(i => i.id === id).done = false; saveAndRender(); }
         function toggleFixed(key) { if(db.today.givenUp) return; const wasFalse = !db.today.fixed[key]; db.today.fixed[key] = !db.today.fixed[key]; saveAndRender(); if (wasFalse) pickToast(QUOTES.cornerstone[key]); }
-       // --- 核心：计分封顶算法 ---
-function calculateScore() {
-    let s = 0;
-    const mode = db.meta.mode;
-    
-    // 定义各模式下的权重上限
-    const workTarget = (mode === 'weekday') ? 4 : (mode === 'weekend' ? 2 : 1);
-    const choreTarget = (mode === 'weekday') ? 2 : 1;
-    const fixedTarget = 2; // 固定项始终执行 3选2 权重封顶
-
-    // 1. 工作得分封顶
-    const actualWork = db.today.work.filter(w => w.done).reduce((a, b) => a + b.val, 0);
-    s += Math.min(actualWork, workTarget);
-
-    // 2. 琐事得分封顶
-    const actualChores = db.today.chores.filter(c => c.done).length;
-    s += Math.min(actualChores, choreTarget);
-
-    // 3. 固定项得分封顶
-    const actualFixed = Object.values(db.today.fixed).filter(v => v).length;
-    s += Math.min(actualFixed, fixedTarget);
-
-    return s;
-}
-
-// --- 核心：固定项视觉呈现逻辑 ---
-function renderFixed() {
-    const f = db.today.fixed;
-    // 计算已完成的数量
-    const count = Object.values(f).filter(v => v).length;
-
-    ['read','clean','meditate'].forEach(k => {
-        const el = document.getElementById('f-' + k);
-        // 先重置样式类
-        el.className = 'fixed-item';
         
-        // 如果该项已完成
-        if(f[k]) {
-            el.classList.add('done');
-        } 
-        // 核心逻辑：如果已完成满 2 项，且当前项未完成，则应用极度透明样式
-        else if(count >= 2) {
-            el.classList.add('excess');
+        function renderFixed() { 
+            const f = db.today.fixed; 
+            const count = Object.values(f).filter(v => v).length;
+            ['read','clean','meditate'].forEach(k => { 
+                const el = document.getElementById('f-'+k); 
+                el.className = 'fixed-item'; 
+                if(f[k]) el.classList.add('done'); 
+                else if(count >= 2) el.classList.add('excess');
+            }); 
         }
-    });
-}
+
+        function calculateScore() { 
+            let s = 0;
+            const mode = db.meta.mode;
+            const workTarget = (mode === 'weekday') ? 4 : (mode === 'weekend' ? 2 : 1);
+            const choreTarget = (mode === 'weekday') ? 2 : 1;
+            const actualWork = db.today.work.filter(w=>w.done).reduce((a,b)=>a+b.val, 0);
+            s += Math.min(actualWork, workTarget);
+            const actualChores = db.today.chores.filter(c=>c.done).length;
+            s += Math.min(actualChores, choreTarget);
+            const actualFixed = Object.values(db.today.fixed).filter(v=>v).length;
+            s += Math.min(actualFixed, 2); 
+            return s; 
+        }
+
         function updateProgress() { const pct = Math.min((calculateScore() / db.meta.target) * 100, 100); document.getElementById('progress-bar').style.width = pct + '%'; }
         
         function handleStopLoss() {
@@ -405,19 +385,21 @@ function renderFixed() {
 
         function openPoolManager() { renderPoolCols(); document.getElementById('pool-manager').classList.add('active'); }
         function closePoolManager() { document.getElementById('pool-manager').classList.remove('active'); if(!db.setupComplete) renderGatewayList(); }
+        
         function renderPoolCols() {
             const mkHtml = (type) => db.pool[type].map((i, idx) => `
                 <div class="pool-edit-item" 
                      ontouchstart="startPress('${type}', '${i.id}', this)" ontouchend="cancelPress()" 
                      onmousedown="startPress('${type}', '${i.id}', this)" onmouseup="cancelPress()" oncontextmenu="return false;">
                     <div class="pool-text ${type==='work'?'font-work':''}">${i.name}</div>
-                    <button class="btn-sort" onclick="moveItem('${type}', ${idx}, -1)">↑</button>
+                    ${idx > 0 ? `<button class="btn-sort" onclick="moveItem('${type}', ${idx}, -1)">↑</button>` : '<div style="width:25px"></div>'}
                 </div>`).join('');
             document.getElementById('pool-col-work').innerHTML = mkHtml('work');
             document.getElementById('pool-col-chore').innerHTML = mkHtml('chore');
         }
+
         function moveItem(type, index, direction) { const arr = db.pool[type]; const newIndex = index + direction; if (newIndex >= 0) { [arr[index], arr[newIndex]] = [arr[newIndex], arr[index]]; saveDB(); renderPoolCols(); } }
-        function startPress(type, id, el) { pressTimer = setTimeout(() => { if(navigator.vibrate) navigator.vibrate(50); el.classList.add('deleting'); if(confirm("确定删除？")) delPool(type, id); el.classList.remove('deleting'); }, 800); }
+        function startPress(type, id, el) { pressTimer = setTimeout(() => { if(navigator.vibrate) navigator.vibrate(50); el.classList.add('deleting'); if(confirm("确定删除？")) delPool(type, id); el.classList.remove('deleting'); }, 600); }
         function cancelPress() { clearTimeout(pressTimer); }
         function addPoolItem(type) { const name = document.getElementById('pool-name').value.trim(); if(name) { db.pool[type].push({id: type[0]+Date.now(), name}); document.getElementById('pool-name').value = ''; saveDB(); renderPoolCols(); } }
         function delPool(type, id) { db.pool[type] = db.pool[type].filter(i=>i.id!==id); saveDB(); renderPoolCols(); }
@@ -429,7 +411,7 @@ function renderFixed() {
             const s = db.meta.streak || 0;
             const sEl = document.getElementById('streak-display');
             if (s > 1) { sEl.innerText = `🔥 连续达成 ${s} 天`; sEl.style.display = 'block'; }
-            else { sEl.style.display = 'none'; }
+            else sEl.style.display = 'none';
             document.getElementById('report-modal').classList.add('active');
         }
         function closeReportModal(e) { if(e.target.id === 'report-modal') document.getElementById('report-modal').classList.remove('active'); }
@@ -437,7 +419,7 @@ function renderFixed() {
             const day = new Date().getDay();
             if (day !== 0) return alert("🚫 裁决日未到（仅周日开启）。");
             const rate = calculateScore() / db.meta.target;
-            let msg = `📊 审判周报\n\n本周平均：${Math.round(rate*100)}% (模拟)\n\n`;
+            let msg = `📊 审判周报\n\n`;
             if (rate < 0.6) msg += `⚠️ 裁决：\n“${QUOTES.roast[Math.floor(Math.random() * QUOTES.roast.length)]}”`;
             else msg += `✅ 裁决：\n“你掌控了自己，也就掌控了自由。”`;
             alert(msg);

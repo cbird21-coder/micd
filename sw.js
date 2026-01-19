@@ -1,4 +1,4 @@
-const CACHE_NAME = "micd-v14";
+const CACHE_NAME = "micd-v15"; // 改为 v15
 const ASSETS = [
   "./",
   "./index.html",
