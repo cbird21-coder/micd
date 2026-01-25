@@ -18,31 +18,23 @@
         body.mode-holiday { --bg: #020d0d; --card: #081414; --accent: #80cbc4; --accent-dim: rgba(128, 203, 196, 0.15); --success: #4db6ac; }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; user-select: none; }
-        body {
-            background: var(--bg); color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0; padding: 0; height: 100vh; overflow: hidden;
-            display: flex; flex-direction: column; transition: background 0.5s ease;
-        }
+        body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; transition: background 0.5s ease; }
 
         .font-work { font-weight: 800 !important; font-size: 1.15em !important; color: #fff; letter-spacing: 0.5px; }
         .marquee-box { background: rgba(0,0,0,0.6); border-bottom: 1px solid var(--border); height: 36px; flex-shrink: 0; overflow: hidden; position: relative; }
         .marquee-text { position: absolute; white-space: nowrap; line-height: 36px; color: var(--accent); font-size: 13px; letter-spacing: 1px; animation: scroll 30s linear infinite; }
         @keyframes scroll { from { left: 100%; } to { left: -100%; } }
 
+        /* Buttons */
         .btn { border: 1px solid #333; background: #1a1a1a; color: #888; padding: 6px 14px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: 0.2s; }
         .btn-primary { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
         .btn-revive { border-color: #444; color: #666; font-size: 11px; padding: 4px 10px; }
-        
-        /* 排序按钮微缩化 */
-        .btn-sort { 
-            padding: 2px 6px; font-size: 11px; color: #555; background: transparent; 
-            border: 1px solid #333; margin-left: 5px; border-radius: 3px; height: 22px; flex-shrink: 0;
-        }
-        
+        .btn-sort { padding: 4px 12px; font-size: 14px; color: #555; background: transparent; border: 1px solid #333; margin-left: 10px; border-radius: 4px; }
+
+        /* Gateway Modal */
         #gateway-modal { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; padding: 20px; transition: transform 0.4s ease; }
         #gateway-modal.closed { transform: translateY(-100%); pointer-events: none; }
-        .gateway-header { font-size: 18px; color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; font-weight: bold; }
+        .gateway-header { font-size: 18px; color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
         .mode-select { display: flex; gap: 10px; margin-bottom: 20px; }
         .mode-btn { flex: 1; padding: 15px 0; text-align: center; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; background: var(--card); color: #666; transition: 0.3s; }
         .mode-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); font-weight: bold; transform: scale(1.02); }
@@ -53,16 +45,17 @@
         .select-item.penalty { background: rgba(207, 102, 121, 0.15); border-left: 3px solid var(--danger); pointer-events: none; }
         .select-item.penalty span { color: var(--danger); font-weight: bold; }
 
+        /* Main View */
         #main-view { flex: 1; overflow-y: auto; padding: 15px 15px 180px 15px; }
         section { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 18px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         h2 { font-size: 12px; color: #666; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
         .task-row { margin-bottom: 15px; padding-bottom: 5px; }
         .task-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; font-weight: 500; }
         input[type=range] { width: 100%; height: 4px; accent-color: var(--accent); background: #333; border-radius: 2px; }
+        
         .fixed-grid { display: flex; gap: 12px; margin-top: 10px; }
         .fixed-item { flex: 1; text-align: center; padding: 15px 0; background: #1a1a1a; border-radius: 8px; border: 1px solid var(--border); color: var(--success); font-size: 16px; font-weight: bold; transition: 0.3s; cursor: pointer; }
         .fixed-item.done { background: transparent; color: #444; text-decoration: line-through; border-color: transparent; transform: scale(0.95); opacity: 0.6; }
-        /* 固定项权重锁定样式 */
         .fixed-item.excess { opacity: 0.15 !important; filter: grayscale(1) !important; }
 
         .archive-section { margin-top: 30px; border-top: 1px dashed #333; padding-top: 15px; }
@@ -70,45 +63,56 @@
         .archive-list { display: none; padding-left: 5px; }
         .archive-list.open { display: block; animation: slideDown 0.3s; }
         .archived-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; color: #555; font-size: 13px; text-decoration: line-through; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Nav */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.95); border-top: 1px solid var(--border); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 1000; }
         .progress-line { flex: 1; height: 4px; background: #222; margin-right: 20px; border-radius: 2px; }
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--accent); }
 
-        /* 3. 任务池 6:4 布局重构 */
-        #pool-manager { position: fixed; inset: 0; background: var(--bg); z-index: 3000; display: flex; flex-direction: column; padding: 20px; transform: translateY(100%); transition: 0.3s; }
-        #pool-manager.active { transform: translateY(0); }
+        /* 3. New Task Pool (Tabbed & Hidden) */
+        #pool-modal { position: fixed; inset: 0; background: var(--bg); z-index: 3000; display: flex; flex-direction: column; transform: translateY(100%); transition: 0.3s; }
+        #pool-modal.active { transform: translateY(0); }
+        .pool-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .pool-content { flex: 1; overflow-y: auto; padding: 15px; }
+        .pool-tabs { display: flex; border-top: 1px solid var(--border); background: var(--card); }
+        .pool-tab { flex: 1; padding: 15px; text-align: center; color: #666; font-size: 14px; cursor: pointer; transition: 0.2s; }
+        .pool-tab.active { color: var(--accent); font-weight: bold; background: rgba(255,255,255,0.05); border-top: 2px solid var(--accent); }
         
-        .pool-split-view { display: flex; flex: 1; gap: 8px; overflow: hidden; margin-top: 10px; width: 100%; }
-        .pool-col { display: flex; flex-direction: column; background: var(--card); border-radius: 8px; padding: 8px; border: 1px solid var(--border); overflow: hidden; }
-        
-        /* 比例分配与文本截断关键 */
-        .pool-col:nth-child(1) { flex: 6; min-width: 0; }
-        .pool-col:nth-child(2) { flex: 4; min-width: 0; }
-        
-        .pool-col h3 { font-size: 11px; color: #666; margin: 0 0 10px 0; text-align: center; text-transform: uppercase; }
-        .pool-scroll { flex: 1; overflow-y: auto; }
-        .pool-edit-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 4px; border-bottom: 1px solid #222; font-size: 13px; transition: background 0.2s; overflow: hidden; }
-        .pool-edit-item.deleting { background: rgba(207, 102, 121, 0.2); }
-        
-        /* 文本省略号逻辑 */
-        .pool-text { 
-            flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
-            margin-right: 4px; font-size: 13px; min-width: 0; 
-        }
+        .pool-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 10px; border-bottom: 1px solid #222; font-size: 15px; }
+        .pool-text { flex: 1; } 
 
-        #report-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 4000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; }
-        #report-modal.active { opacity: 1; pointer-events: auto; }
-        .report-card { background: var(--card); width: 85%; max-width: 320px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); text-align: center; transform: scale(0.9); transition: 0.3s; }
-        #report-modal.active .report-card { transform: scale(1); }
-        .report-score { font-size: 48px; font-weight: bold; color: var(--accent); margin: 20px 0; font-family: monospace; }
-        .report-btn-group { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-        .report-streak { font-size: 12px; color: var(--success); margin-bottom: 5px; }
+        /* Hidden Section */
+        .hidden-section { margin-top: 20px; border-top: 1px dashed #333; }
+        .hidden-toggle { color: #666; font-size: 12px; padding: 10px; text-align: center; cursor: pointer; }
+        .hidden-list { display: none; background: #0f0f0f; }
+        .hidden-list.open { display: block; }
+        .pool-item-row.hidden-item { opacity: 0.5; text-decoration: line-through; color: #666; }
+
+        /* Custom Action Sheet */
+        #action-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-radius: 16px 16px 0 0; z-index: 5000; transform: translateY(100%); transition: 0.3s; padding: 20px; border-top: 1px solid var(--border); box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
+        #action-sheet.active { transform: translateY(0); }
+        .sheet-title { text-align: center; color: #888; font-size: 13px; margin-bottom: 20px; }
+        .sheet-btn { width: 100%; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-size: 16px; font-weight: bold; border: none; cursor: pointer; }
+        .btn-rename { background: var(--accent-dim); color: var(--accent); }
+        .btn-hide { background: #333; color: #ccc; }
+        .btn-delete { background: var(--danger); color: #fff; }
+        .btn-cancel { background: transparent; color: #666; border: 1px solid #333; }
+        #sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 4999; display: none; }
+        #sheet-overlay.active { display: block; }
+
+        /* Data Modal */
+        #data-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 4000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; }
+        #data-modal.active { opacity: 1; pointer-events: auto; }
+        .data-card { background: var(--card); width: 85%; max-width: 320px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); text-align: center; }
+        .data-score { font-size: 56px; font-weight: bold; color: var(--accent); margin: 15px 0; font-family: monospace; }
+        .history-chart { margin-top: 20px; padding-top: 20px; border-top: 1px solid #333; display: none; text-align: left; }
+        .history-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: #888; }
+        .bar-bg { width: 100px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+        .bar-fill { height: 100%; background: var(--accent); }
+        .roast-text { margin-top: 15px; font-size: 12px; color: var(--danger); font-style: italic; text-align: center; border: 1px dashed #333; padding: 10px; border-radius: 6px; }
 
         #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(30,30,30,0.95); backdrop-filter: blur(10px); border: 1px solid var(--accent); color: var(--accent); padding: 12px 24px; border-radius: 30px; font-size: 13px; opacity: 0; pointer-events: none; transition: 0.4s; white-space: nowrap; z-index: 5000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
         .hidden { display: none !important; }
     </style>
 </head>
@@ -122,12 +126,12 @@
     <div id="gateway-modal">
         <div class="gateway-header">
             <span>今日契约</span>
-            <button class="btn" onclick="openPoolManager()" style="float:right; font-size:12px">📚 任务池</button>
+            <button class="btn" style="padding:4px 10px; font-size:12px; border-color:#444;" onclick="openPoolModal()">⚙️ 任务池</button>
         </div>
         <div class="mode-select">
-            <div class="mode-btn active" onclick="setMode('weekday', 8, 2)" id="btn-mode-weekday">工作日</div>
-            <div class="mode-btn" onclick="setMode('weekend', 5, 1)" id="btn-mode-weekend">双休日</div>
-            <div class="mode-btn" onclick="setMode('holiday', 4, 1)" id="btn-mode-holiday">假期</div>
+            <div class="mode-btn" onclick="checkModeSelection('weekday')" id="btn-mode-weekday">工作日</div>
+            <div class="mode-btn" onclick="checkModeSelection('weekend')" id="btn-mode-weekend">双休日</div>
+            <div class="mode-btn" onclick="checkModeSelection('holiday')" id="btn-mode-holiday">假期</div>
         </div>
         <div class="check-section">
             <div style="margin-bottom:20px">
@@ -139,14 +143,14 @@
                 <div id="gateway-chore-list"></div>
             </div>
         </div>
-        <div id="validation-msg" style="font-size:12px; color:#666; margin-bottom:10px; text-align:center">请选择模式并勾选任务</div>
         <button id="btn-start" class="btn btn-primary" style="width:100%; padding:15px; font-weight:bold" disabled onclick="confirmGateway()">🔒 锁定契约</button>
     </div>
 
     <div id="main-view">
         <div style="text-align:right; margin-bottom:10px;">
-             <button class="btn" style="font-size:11px; color:#555; background:transparent; border:none" onclick="openPoolManager()">📚 维护任务池</button>
+             <button class="btn" style="font-size:11px; color:#555; background:transparent; border:none" onclick="openPoolModal()">⚙️ 任务池</button>
         </div>
+
         <section id="sec-work">
             <h2>工作执行</h2>
             <div id="main-work-list"></div>
@@ -165,6 +169,7 @@
                 <div class="fixed-item" id="f-meditate" onclick="toggleFixed('meditate')">🧘 练想</div>
             </div>
         </section>
+        
         <div class="archive-section">
             <div class="archive-header" onclick="toggleArchive()">
                 <span>▼ 已归档 / 已完成 (<span id="archive-count">0</span>)</span>
@@ -176,259 +181,341 @@
     <div class="nav-bar">
         <div class="progress-line"><div class="progress-fill" id="progress-bar"></div></div>
         <div style="display:flex; gap:10px">
-            <button class="btn" onclick="openReportModal()">周报</button>
+            <button class="btn" onclick="openDataModal()">数据</button>
             <button class="btn" id="btn-giveup" style="color:var(--danger); border-color:#333; min-width:60px" onclick="handleStopLoss()">止损</button>
         </div>
     </div>
 
-    <div id="pool-manager">
-        <div class="gateway-header">
-            <span>任务池 (长按删除)</span>
-            <button class="btn" onclick="closePoolManager()" style="float:right">完成</button>
+    <div id="pool-modal">
+        <div class="pool-header">
+            <span>任务池管理</span>
+            <button class="btn" onclick="closePoolModal()">完成</button>
         </div>
-        <div style="display:flex; gap:10px; margin-bottom:10px;">
-            <input type="text" id="pool-name" placeholder="输入名称..." style="flex:1; background:#222; border:none; padding:10px; color:#fff; border-radius:4px">
-            <div style="display:flex; gap:5px">
-                <button class="btn" onclick="addPoolItem('work')">+工作</button>
-                <button class="btn" onclick="addPoolItem('chore')">+琐事</button>
-            </div>
+        <div style="padding:10px 15px; border-bottom:1px solid #222; display:flex; gap:10px;">
+            <input type="text" id="pool-input" placeholder="输入新任务..." style="flex:1; background:#222; border:none; padding:12px; color:#fff; border-radius:6px; outline:none;" onkeypress="if(event.keyCode==13) addNewToPool()">
+            <button class="btn btn-primary" onclick="addNewToPool()">添加</button>
         </div>
-        <div class="pool-split-view">
-            <div class="pool-col">
-                <h3>工作库</h3>
-                <div class="pool-scroll" id="pool-col-work"></div>
-            </div>
-            <div class="pool-col">
-                <h3>琐事库</h3>
-                <div class="pool-scroll" id="pool-col-chore"></div>
-            </div>
+        <div class="pool-content" id="pool-list-container"></div>
+        <div class="pool-tabs">
+            <div class="pool-tab active" onclick="switchPoolTab('work')" id="tab-work">工作库</div>
+            <div class="pool-tab" onclick="switchPoolTab('chore')" id="tab-chore">琐事库</div>
         </div>
     </div>
 
-    <div id="report-modal" onclick="closeReportModal(event)">
-        <div class="report-card">
-            <div class="report-streak" id="streak-display"></div>
-            <div style="color:#666; font-size:12px; text-transform:uppercase; letter-spacing:1px">今日完成率</div>
-            <div class="report-score" id="report-score-val">0%</div>
-            <div style="font-size:12px; color:#888" id="report-msg">保持节奏</div>
-            <div class="report-btn-group">
-                <button class="btn btn-primary" style="padding:12px" onclick="enterJudgment()">🔥 进入裁决 (仅周日)</button>
-                <button class="btn" style="padding:12px; border:none" onclick="document.getElementById('report-modal').classList.remove('active')">关闭</button>
-            </div>
+    <div id="sheet-overlay" onclick="closeActionSheet()"></div>
+    <div id="action-sheet">
+        <div class="sheet-title" id="sheet-msg">操作选项</div>
+        <button class="sheet-btn btn-rename" onclick="triggerRename()">修改名称 (Rename)</button>
+        <button class="sheet-btn btn-hide" id="btn-sheet-hide" onclick="confirmHide()">隐藏/冷藏</button>
+        <button class="sheet-btn btn-delete" onclick="confirmDelete()">删除 (不可恢复)</button>
+        <button class="sheet-btn btn-cancel" onclick="closeActionSheet()">取消</button>
+    </div>
+
+    <div id="data-modal" onclick="closeDataModal(event)">
+        <div class="data-card">
+            <div style="color:#666; font-size:12px; letter-spacing:1px">今日完成度</div>
+            <div class="data-score" id="data-today-val">0%</div>
+            <button class="btn" id="btn-show-history" style="margin-top:10px; width:100%" onclick="showHistory()">查看近七天走势</button>
+            <div class="history-chart" id="history-view"></div>
         </div>
     </div>
 
     <script>
-        const DB_KEY = 'discipline_v12';
-        const DB_VERSION = 1;
-
-        const PENALTIES = ["跑步15分钟", "联系一位老友", "尝试一份新菜谱", "深蹲50个", "整理相册30分钟", "不看手机1小时", "写300字日记"];
+        const DB_KEY = 'discipline_v19';
+        const QUOTES_HIGH = ["质变时刻：你正在重塑大脑回路。", "就是这种感觉，保持住。", "平凡与卓越的分界线就在此刻。"];
+        const ROASTS_LOW = ["你的计划是写在水上的吗？", "间歇性踌躇满志，持续性混吃等死。", "今天的你，配不上明天的梦想。"];
+        const ROASTS_MID = ["还在舒适区里打转？", "不痛不痒的努力，感动了谁？", "差一点，就是差很多。"];
         
-        const QUOTES = {
-            daily: ["自律是反抗熵增的唯一手段。", "输入决定输出，你正在构建你的大脑。", "不要假装努力，结果不会陪你演戏。", "一屋不扫，何以扫天下。", "动作是焦虑的解药。", "知行合一。", "慎独。", "你不是被情绪推着走的人。", "自由即责任。", "向内观看，世界安静。", "不要温和地走进那个良夜。", "凡墙皆是门。", "真正的平静，不是避开车马喧嚣。", "流水不争先，争的是滔滔不绝。", "日拱一卒，功不唐捐。", "万物皆有裂痕，那是光照进来的地方。", "我命由我不由天。", "此刻，专注当下。"],
-            cornerstone: { read: ["书卷多情似故人。", "精神避难所已建立。", "这一刻，你与古人对话。"], clean: ["扫除是内心的沐浴。", "秩序产生平静。", "一尘不染，万念归一。"], meditate: ["向内观看。", "此刻，世界静音。", "静能生慧。"] },
-            work: ["行胜于言。", "专注即力量。", "这是你与平庸的距离。", "干得漂亮，继续。", "不要停，保持节奏。"],
-            chore: ["生活在细节中。", "清空大脑缓存。", "小事成就秩序。", "拒绝拖延。", "解决掉它，爽。"],
-            roast: ["你的雄心配不上你的懒惰。", "间歇性踌躇满志，持续性混吃等死。", "计划是自欺欺人的谎言吗？", "你正在温水里慢慢腐烂。", "今天的你，配不上明天的梦想。"]
-        };
-
         let db = {
-            meta: { version: 1, lastDate: '', mode: 'weekday', target: 8, reqChores: 2, todayQuote: '', streak: 0, pendingPenalty: null },
-            pool: { work: [{id:'w1', name:'深度工作'}, {id:'w2', name:'会议'}], chore: [{id:'c1', name:'清理桌面'}, {id:'c2', name:'回复消息'}] },
+            meta: { version: 1, lastDate: '', mode: 'weekday', target: 8, reqChores: 2, todayQuote: '' },
+            pool: { work: [{id:'w1', name:'深度工作', hidden:false}, {id:'w2', name:'会议', hidden:false}], chore: [{id:'c1', name:'清理桌面', hidden:false}, {id:'c2', name:'回复消息', hidden:false}] },
             today: { work: [], chores: [], fixed: {read:false, clean:false, meditate:false}, givenUp: false, stopLossStart: 0 },
             history: {}, setupComplete: false
         };
         let tempSel = { workIds: new Set(), choreIds: new Set() };
-        let stopLossTimer = null, pressTimer = null;
+        let currentPoolTab = 'work';
+        let actionTargetId = null;
+        let pressTimer = null;
+        let stopLossTimer = null;
 
         window.onload = () => {
             const saved = localStorage.getItem(DB_KEY);
-            if(saved) {
-                const parsed = JSON.parse(saved);
-                if(!parsed.meta.version) localStorage.removeItem(DB_KEY);
-                else db = parsed;
-            }
+            if(saved) db = JSON.parse(saved);
             checkNewDay();
-            document.getElementById('status-marquee').innerText = db.meta.todayQuote || "自律即自由。";
             applyTheme(db.meta.mode);
-            if(!db.setupComplete) initGateway();
-            else { document.getElementById('gateway-modal').classList.add('closed'); renderMain(); if(db.today.stopLossStart > 0) startStopLossTimer(); }
-
-            if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("sw.js").catch(err => console.log(err));
+            
+            if(!db.setupComplete) {
+                initGateway();
+                const day = new Date().getDay();
+                const autoMode = (day === 0 || day === 6) ? 'weekend' : 'weekday';
+                setMode(autoMode, autoMode==='weekday'?8:5, autoMode==='weekday'?2:1);
+            } else {
+                document.getElementById('gateway-modal').classList.add('closed');
+                renderMain();
+                if(db.today.stopLossStart > 0) startStopLossTimer();
             }
+            if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
         };
 
+        // --- Core ---
         function checkNewDay() {
             const nowStr = new Date().toLocaleDateString();
             if(db.meta.lastDate !== nowStr) {
-                if (db.meta.lastDate) {
-                    const yesterdayScore = calculateScore();
-                    const yesterdayRate = yesterdayScore / db.meta.target;
-                    db.history[db.meta.lastDate] = { score: yesterdayScore, rate: yesterdayRate, givenUp: db.today.givenUp };
-                    if (yesterdayRate >= 0.6 && !db.today.givenUp) db.meta.streak = (db.meta.streak || 0) + 1;
-                    else db.meta.streak = 0;
-                    if (yesterdayRate < 0.6 || db.today.givenUp) db.meta.pendingPenalty = PENALTIES[Math.floor(Math.random() * PENALTIES.length)];
-                    else db.meta.pendingPenalty = null;
-                }
+                if(db.meta.lastDate) { db.history[db.meta.lastDate] = calculateScore() / db.meta.target; }
                 db.meta.lastDate = nowStr;
-                db.meta.todayQuote = QUOTES.daily[Math.floor(Math.random() * QUOTES.daily.length)];
                 db.today = { work: [], chores: [], fixed: {read:false, clean:false, meditate:false}, givenUp: false, stopLossStart: 0 };
                 db.setupComplete = false;
                 saveDB();
             }
         }
-
-        function setMode(mode, target, req) { db.meta.mode=mode; db.meta.target=target; db.meta.reqChores=req; applyTheme(mode); document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active')); document.getElementById(`btn-mode-${mode}`).classList.add('active'); document.getElementById('req-chore').innerText = req; validateGateway(); }
+        function saveDB() { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
         function applyTheme(mode) { document.body.className = `mode-${mode}`; }
 
-        function initGateway() { setMode(db.meta.mode, db.meta.target, db.meta.reqChores); renderGatewayList(); validateGateway(); }
+        // --- Gateway ---
+        function checkModeSelection(mode) {
+            const day = new Date().getDay();
+            const isWeekend = (day === 0 || day === 6);
+            if (mode === 'holiday') { if(!confirm("今天是工作日/周末，确认开启假期模式？")) return; } 
+            else if (mode === 'weekend' && !isWeekend) { if(!confirm("今天是工作日，确认开启双休模式？")) return; } 
+            else if (mode === 'weekday' && isWeekend) { if(!confirm("今天是周末，确认开启工作日模式？")) return; }
+            let t=8, r=2; if(mode==='weekend') { t=5; r=1; } if(mode==='holiday') { t=4; r=1; }
+            setMode(mode, t, r);
+        }
+
+        function setMode(mode, target, req) { 
+            db.meta.mode = mode; db.meta.target = target; db.meta.reqChores = req; 
+            applyTheme(mode);
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-mode-${mode}`).classList.add('active');
+            renderGatewayList(); 
+            const btn = document.getElementById('btn-start');
+            const valid = tempSel.workIds.size >= 1 && tempSel.choreIds.size >= req;
+            btn.disabled = !valid; btn.style.opacity = valid ? 1 : 0.5;
+        }
+
         function renderGatewayList() {
-            let htmlWork = '', htmlChore = '';
-            if (db.meta.pendingPenalty) htmlChore += `<div class="select-item penalty"><input type="checkbox" class="select-checkbox" checked disabled><span>⚠️ 惩罚：${db.meta.pendingPenalty}</span></div>`;
             const mkItem = (item, type, set) => `
                 <div class="select-item ${set.has(item.id)?'selected':''}" onclick="toggleSel('${type}', '${item.id}', this)">
                     <input type="checkbox" class="select-checkbox" ${set.has(item.id)?'checked':''}>
                     <span class="${type==='work'?'font-work':''}">${item.name}</span>
                 </div>`;
-            htmlWork += db.pool.work.map(i => mkItem(i, 'work', tempSel.workIds)).join('');
-            htmlChore += db.pool.chore.map(i => mkItem(i, 'chore', tempSel.choreIds)).join('');
-            document.getElementById('gateway-work-list').innerHTML = htmlWork;
-            document.getElementById('gateway-chore-list').innerHTML = htmlChore;
+            document.getElementById('gateway-work-list').innerHTML = db.pool.work.filter(i=>!i.hidden).map(i => mkItem(i, 'work', tempSel.workIds)).join('');
+            document.getElementById('gateway-chore-list').innerHTML = db.pool.chore.filter(i=>!i.hidden).map(i => mkItem(i, 'chore', tempSel.choreIds)).join('');
         }
-        function toggleSel(type, id, el) { const set = type === 'work' ? tempSel.workIds : tempSel.choreIds; if(set.has(id)) { set.delete(id); el.classList.remove('selected'); el.querySelector('input').checked = false; } else { set.add(id); el.classList.add('selected'); el.querySelector('input').checked = true; } validateGateway(); }
-        function validateGateway() { const valid = tempSel.workIds.size >= 1 && tempSel.choreIds.size >= db.meta.reqChores; const btn = document.getElementById('btn-start'); btn.disabled = !valid; btn.style.opacity = valid ? 1 : 0.5; document.getElementById('validation-msg').innerText = valid ? "✓ 契约合规" : `需至少 1 工作 + ${db.meta.reqChores} 琐事`; document.getElementById('validation-msg').style.color = valid ? "var(--success)" : "#666"; }
-        function confirmGateway() { 
-            db.today.work = db.pool.work.filter(i => tempSel.workIds.has(i.id)).map(i => ({...i, val:0, done:false})); 
-            db.today.chores = db.pool.chore.filter(i => tempSel.choreIds.has(i.id)).map(i => ({...i, done:false})); 
-            if (db.meta.pendingPenalty) { db.today.chores.unshift({ id: 'penalty-'+Date.now(), name: "⚠️ " + db.meta.pendingPenalty, done: false, isPenalty: true }); db.meta.pendingPenalty = null; }
-            db.setupComplete = true; saveDB(); document.getElementById('gateway-modal').classList.add('closed'); renderMain(); 
+        
+        function toggleSel(type, id, el) { 
+            const set = type === 'work' ? tempSel.workIds : tempSel.choreIds; 
+            if(set.has(id)) set.delete(id); else set.add(id);
+            setMode(db.meta.mode, db.meta.target, db.meta.reqChores); 
         }
 
+        function confirmGateway() {
+            db.today.work = db.pool.work.filter(i => tempSel.workIds.has(i.id)).map(i => ({...i, val:0, done:false}));
+            db.today.chores = db.pool.chore.filter(i => tempSel.choreIds.has(i.id)).map(i => ({...i, done:false}));
+            db.setupComplete = true; saveDB();
+            document.getElementById('gateway-modal').classList.add('closed'); renderMain();
+        }
+
+        // --- Main ---
         function renderMain() {
             if(db.today.givenUp) document.body.style.filter = "grayscale(1)";
-            const activeWork = db.today.work.filter(w => !w.done);
-            const activeChore = db.today.chores.filter(c => !c.done);
-            const doneWork = db.today.work.filter(w => w.done);
-            const doneChore = db.today.chores.filter(c => c.done);
-
-            document.getElementById('main-work-list').innerHTML = activeWork.map(w => `
+            const activeW = db.today.work.filter(w => !w.done);
+            document.getElementById('main-work-list').innerHTML = activeW.map(w => `
                 <div class="task-row work-task">
-                    <div class="task-header"><span class="font-work">${w.name}</span><span id="v-${w.id}">${w.val}h</span></div>
-                    <div style="display:flex; align-items:center; gap:10px">
+                    <div class="task-header"><span class="font-work">${w.name}</span><span>${w.val}h</span></div>
+                    <div style="display:flex; gap:10px; align-items:center">
                         <input type="range" min="0" max="5" step="0.5" value="${w.val}" 
-                               oninput="document.getElementById('v-${w.id}').innerText=this.value+'h'" 
-                               onchange="updateWorkVal('${w.id}', this.value)"> 
-                        <button class="btn btn-primary" onclick="doWork('${w.id}', this)">Done</button>
+                               oninput="this.parentNode.previousElementSibling.lastElementChild.innerText=this.value+'h'"
+                               onchange="updateVal('${w.id}', this.value)">
+                        <button class="btn btn-primary" onclick="finishWork('${w.id}')">Done</button>
                     </div>
                 </div>`).join('');
-            document.getElementById('empty-work').classList.toggle('hidden', activeWork.length > 0);
+            document.getElementById('empty-work').classList.toggle('hidden', activeW.length > 0);
 
-            document.getElementById('main-chore-list').innerHTML = activeChore.map(c => `
+            const activeC = db.today.chores.filter(c => !c.done);
+            document.getElementById('main-chore-list').innerHTML = activeC.map(c => `
                 <div class="task-row" style="display:flex; justify-content:space-between; align-items:center">
-                    <span class="${c.isPenalty ? 'font-work' : ''}" style="${c.isPenalty ? 'color:var(--danger)' : ''}">${c.name}</span>
-                    <button class="btn btn-primary" onclick="doChore('${c.id}')">Done</button>
+                    <span>${c.name}</span>
+                    <button class="btn btn-primary" onclick="finishChore('${c.id}')">Done</button>
                 </div>`).join('');
-            document.getElementById('empty-chore').classList.toggle('hidden', activeChore.length > 0);
+            document.getElementById('empty-chore').classList.toggle('hidden', activeC.length > 0);
 
-            document.getElementById('archive-count').innerText = doneWork.length + doneChore.length;
+            const doneW = db.today.work.filter(w => w.done);
+            const doneC = db.today.chores.filter(c => c.done);
+            document.getElementById('archive-count').innerText = doneW.length + doneC.length;
             document.getElementById('archive-container').innerHTML = `
-                ${doneWork.map(w => `<div class="archived-item"><span class="font-work">💼 ${w.name} (${w.val}h)</span><button class="btn btn-revive" onclick="revive('work', '${w.id}')">撤销</button></div>`).join('')}
-                ${doneChore.map(c => `<div class="archived-item"><span>📝 ${c.name}</span><button class="btn btn-revive" onclick="revive('chore', '${c.id}')">撤销</button></div>`).join('')}`;
+                ${doneW.map(w => `<div class="archived-item"><span class="font-work">💼 ${w.name} (${w.val}h)</span><button class="btn btn-revive" onclick="revive('work','${w.id}')">撤销</button></div>`).join('')}
+                ${doneC.map(c => `<div class="archived-item"><span>📝 ${c.name}</span><button class="btn btn-revive" onclick="revive('chore','${c.id}')">撤销</button></div>`).join('')}`;
+
             renderFixed(); updateProgress();
         }
-        
-        function updateWorkVal(id, val) { const item = db.today.work.find(i => i.id === id); if(item) { item.val = parseFloat(val); saveDB(); } }
-        function doWork(id, btn) { const val = parseFloat(btn.previousElementSibling.value); if(val < 0.5) return alert("工作需 >= 0.5h"); updateWorkVal(id, val); db.today.work.find(i => i.id === id).done = true; pickToast(QUOTES.work); saveAndRender(); }
-        function doChore(id) { db.today.chores.find(i => i.id === id).done = true; pickToast(QUOTES.chore); saveAndRender(); }
-        function revive(type, id) { if(type==='work') db.today.work.find(i => i.id === id).done = false; else db.today.chores.find(i => i.id === id).done = false; saveAndRender(); }
-        function toggleFixed(key) { if(db.today.givenUp) return; const wasFalse = !db.today.fixed[key]; db.today.fixed[key] = !db.today.fixed[key]; saveAndRender(); if (wasFalse) pickToast(QUOTES.cornerstone[key]); }
-        
-        function renderFixed() { 
-            const f = db.today.fixed; 
-            const count = Object.values(f).filter(v => v).length;
-            ['read','clean','meditate'].forEach(k => { 
-                const el = document.getElementById('f-'+k); 
-                el.className = 'fixed-item'; 
-                if(f[k]) el.classList.add('done'); 
-                else if(count >= 2) el.classList.add('excess');
-            }); 
+
+        function updateVal(id, v) { const w = db.today.work.find(i=>i.id===id); if(w){w.val=parseFloat(v); saveDB();} }
+        function finishWork(id) { const w = db.today.work.find(i=>i.id===id); if(w.val < 0.5) return alert("工作需 >= 0.5h"); w.done = true; saveAndRender(); }
+        function finishChore(id) { db.today.chores.find(i=>i.id===id).done = true; saveAndRender(); }
+        function revive(t, id) { if(t==='work') db.today.work.find(i=>i.id===id).done=false; else db.today.chores.find(i=>i.id===id).done=false; saveAndRender(); }
+        function renderFixed() {
+            const f = db.today.fixed; const cnt = Object.values(f).filter(v=>v).length;
+            ['read','clean','meditate'].forEach(k => {
+                const el = document.getElementById('f-'+k); el.className = 'fixed-item';
+                if(f[k]) el.classList.add('done'); else if(cnt >= 2) el.classList.add('excess');
+            });
+        }
+        function toggleFixed(k) { if(db.today.givenUp) return; db.today.fixed[k] = !db.today.fixed[k]; saveAndRender(); }
+
+        function calculateScore() {
+            let s = 0; const mode = db.meta.mode;
+            const wt = (mode==='weekday')?4:(mode==='weekend'?2:1); const ct = (mode==='weekday')?2:1;
+            const aw = db.today.work.filter(w=>w.done).reduce((a,b)=>a+b.val,0); s += Math.min(aw, wt);
+            const ac = db.today.chores.filter(c=>c.done).length; s += Math.min(ac, ct);
+            const af = Object.values(db.today.fixed).filter(v=>v).length; s += Math.min(af, 2);
+            return s;
         }
 
-        function calculateScore() { 
-            let s = 0;
-            const mode = db.meta.mode;
-            const workTarget = (mode === 'weekday') ? 4 : (mode === 'weekend' ? 2 : 1);
-            const choreTarget = (mode === 'weekday') ? 2 : 1;
-            const actualWork = db.today.work.filter(w=>w.done).reduce((a,b)=>a+b.val, 0);
-            s += Math.min(actualWork, workTarget);
-            const actualChores = db.today.chores.filter(c=>c.done).length;
-            s += Math.min(actualChores, choreTarget);
-            const actualFixed = Object.values(db.today.fixed).filter(v=>v).length;
-            s += Math.min(actualFixed, 2); 
-            return s; 
+        function updateProgress() {
+            const rate = calculateScore() / db.meta.target;
+            document.getElementById('progress-bar').style.width = Math.min(rate * 100, 100) + '%';
+            if(rate > 0.9 && !sessionStorage.getItem('high_score_toast')) {
+                showToast(QUOTES_HIGH[Math.floor(Math.random()*QUOTES_HIGH.length)]);
+                sessionStorage.setItem('high_score_toast', '1');
+            }
         }
 
-        function updateProgress() { const pct = Math.min((calculateScore() / db.meta.target) * 100, 100); document.getElementById('progress-bar').style.width = pct + '%'; }
+        function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000); }
+
+        // --- Task Pool ---
+        function openPoolModal() { currentPoolTab='work'; renderPoolList(); document.getElementById('pool-modal').classList.add('active'); }
+        function closePoolModal() { document.getElementById('pool-modal').classList.remove('active'); }
+        function switchPoolTab(type) { currentPoolTab = type; document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active')); document.getElementById('tab-'+type).classList.add('active'); renderPoolList(); }
         
+        function renderPoolList() {
+            const list = db.pool[currentPoolTab];
+            const isWork = currentPoolTab === 'work';
+            const activeItems = list.filter(i => !i.hidden);
+            const hiddenItems = list.filter(i => i.hidden);
+
+            let html = activeItems.map((i, idx) => `
+                <div class="pool-item-row" id="item-${i.id}"
+                     ontouchstart="startPress('${i.id}', false)" ontouchend="cancelPress()" 
+                     onmousedown="startPress('${i.id}', false)" onmouseup="cancelPress()"
+                     oncontextmenu="return false;">
+                    <div class="pool-text ${isWork?'font-work':''}">${i.name}</div>
+                    ${idx>0 ? `<button class="btn-sort" onclick="moveItem(${idx}, -1)">↑</button>` : ''}
+                </div>`).join('');
+
+            if (hiddenItems.length > 0) {
+                html += `
+                <div class="hidden-section">
+                    <div class="hidden-toggle" onclick="toggleHiddenList()">▼ 查看已隐藏 (${hiddenItems.length})</div>
+                    <div class="hidden-list" id="hidden-list-view">
+                        ${hiddenItems.map(i => `
+                            <div class="pool-item-row hidden-item"
+                                 ontouchstart="startPress('${i.id}', true)" ontouchend="cancelPress()" 
+                                 onmousedown="startPress('${i.id}', true)" onmouseup="cancelPress()">
+                                <div>${i.name}</div>
+                            </div>`).join('')}
+                    </div>
+                </div>`;
+            }
+            document.getElementById('pool-list-container').innerHTML = html;
+        }
+
+        function toggleHiddenList() { document.getElementById('hidden-list-view').classList.toggle('open'); }
+        function addNewToPool() {
+            const val = document.getElementById('pool-input').value.trim();
+            if(val) { db.pool[currentPoolTab].push({id: currentPoolTab[0]+Date.now(), name: val, hidden: false}); document.getElementById('pool-input').value = ''; saveDB(); renderPoolList(); }
+        }
+        function moveItem(idx, dir) {
+            const arr = db.pool[currentPoolTab];
+            const activeList = arr.filter(i=>!i.hidden);
+            const item = activeList[idx]; const target = activeList[idx+dir];
+            if(item && target) {
+                const r1 = arr.indexOf(item); const r2 = arr.indexOf(target);
+                [arr[r1], arr[r2]] = [arr[r2], arr[r1]];
+                saveDB(); renderPoolList();
+            }
+        }
+
+        // --- Rename Logic ---
+        function triggerRename() {
+            closeActionSheet();
+            const item = db.pool[currentPoolTab].find(i=>i.id===actionTargetId);
+            if (!item) return;
+            const newName = prompt("修改名称：", item.name);
+            if (newName && newName.trim() !== "") { item.name = newName.trim(); saveDB(); renderPoolList(); }
+        }
+
+        // Action Sheet
+        function startPress(id, isHidden) { 
+            pressTimer = setTimeout(() => { 
+                actionTargetId = id; actionIsHidden = isHidden;
+                if(navigator.vibrate) navigator.vibrate(50); 
+                document.getElementById('btn-sheet-hide').innerText = isHidden ? "恢复 (Unhide)" : "隐藏 (Hide)";
+                document.getElementById('sheet-msg').innerText = isHidden ? "恢复此任务到可选列表？" : "将此任务折叠隐藏？";
+                document.getElementById('action-sheet').classList.add('active'); 
+                document.getElementById('sheet-overlay').classList.add('active'); 
+            }, 600); 
+        }
+        function cancelPress() { clearTimeout(pressTimer); }
+        function closeActionSheet() { document.getElementById('action-sheet').classList.remove('active'); document.getElementById('sheet-overlay').classList.remove('active'); }
+        function confirmHide() { const item = db.pool[currentPoolTab].find(i=>i.id===actionTargetId); if(item) { item.hidden = !item.hidden; saveDB(); renderPoolList(); } closeActionSheet(); }
+        function confirmDelete() { db.pool[currentPoolTab] = db.pool[currentPoolTab].filter(i=>i.id!==actionTargetId); saveDB(); renderPoolList(); closeActionSheet(); }
+
+        // --- Stop Loss ---
         function handleStopLoss() {
             if (db.today.givenUp) return;
             const btn = document.getElementById('btn-giveup');
-            if (db.today.stopLossStart === 0) { db.today.stopLossStart = Date.now(); saveDB(); startStopLossTimer(); return; }
-            if (Date.now() - db.today.stopLossStart < 30 * 60 * 1000) { if(confirm("撤销“止损”？")) { db.today.stopLossStart = 0; saveDB(); clearInterval(stopLossTimer); btn.innerText = "止损"; btn.style.borderColor = "#333"; btn.style.color = "var(--danger)"; } return; }
-            if(confirm("确认放弃今日？\n你选择了背叛。")) { db.today.givenUp = true; db.today.stopLossStart = 0; clearInterval(stopLossTimer); saveAndRender(); }
+            if (db.today.stopLossStart === 0) {
+                db.today.stopLossStart = Date.now(); saveDB(); updateStopLossBtn(); startStopLossTimer(); return;
+            }
+            if (Date.now() - db.today.stopLossStart < 30 * 60 * 1000) {
+                if(confirm("撤销“止损”？\n回到正常状态。")) { db.today.stopLossStart = 0; saveDB(); clearInterval(stopLossTimer); btn.innerText = "止损"; btn.style.borderColor = "#333"; btn.style.color = "var(--danger)"; } return;
+            }
+            if(confirm("确认放弃今日？\n不计分，屏幕变灰。")) { db.today.givenUp = true; db.today.stopLossStart = 0; clearInterval(stopLossTimer); saveAndRender(); }
+        }
+        function updateStopLossBtn() {
+            const btn = document.getElementById('btn-giveup');
+            const remaining = 30 * 60 * 1000 - (Date.now() - db.today.stopLossStart);
+            if (remaining > 0) {
+                const mm = Math.floor(remaining / 60000); const ss = Math.floor((remaining % 60000) / 1000);
+                btn.innerText = `撤销 (${mm}:${ss<10?'0'+ss:ss})`; btn.style.color = "#888"; btn.style.borderColor = "#888";
+            } else { btn.innerText = "确认放弃"; btn.style.color = "var(--danger)"; btn.style.borderColor = "var(--danger)"; }
         }
         function startStopLossTimer() {
-            const btn = document.getElementById('btn-giveup');
-            stopLossTimer = setInterval(() => { const remaining = 30 * 60 * 1000 - (Date.now() - db.today.stopLossStart); if (remaining > 0) { const mm = Math.floor(remaining / 60000); const ss = Math.floor((remaining % 60000) / 1000); btn.innerText = `撤销 (${mm}:${ss<10?'0'+ss:ss})`; btn.style.color = "#888"; btn.style.borderColor = "#888"; } else { btn.innerText = "确认放弃"; btn.style.color = "var(--danger)"; btn.style.borderColor = "var(--danger)"; } }, 1000);
+            if(stopLossTimer) clearInterval(stopLossTimer);
+            updateStopLossBtn();
+            stopLossTimer = setInterval(updateStopLossBtn, 1000);
         }
 
-        function openPoolManager() { renderPoolCols(); document.getElementById('pool-manager').classList.add('active'); }
-        function closePoolManager() { document.getElementById('pool-manager').classList.remove('active'); if(!db.setupComplete) renderGatewayList(); }
-        
-        function renderPoolCols() {
-            const mkHtml = (type) => db.pool[type].map((i, idx) => `
-                <div class="pool-edit-item" 
-                     ontouchstart="startPress('${type}', '${i.id}', this)" ontouchend="cancelPress()" 
-                     onmousedown="startPress('${type}', '${i.id}', this)" onmouseup="cancelPress()" oncontextmenu="return false;">
-                    <div class="pool-text ${type==='work'?'font-work':''}">${i.name}</div>
-                    ${idx > 0 ? `<button class="btn-sort" onclick="moveItem('${type}', ${idx}, -1)">↑</button>` : '<div style="width:25px"></div>'}
-                </div>`).join('');
-            document.getElementById('pool-col-work').innerHTML = mkHtml('work');
-            document.getElementById('pool-col-chore').innerHTML = mkHtml('chore');
+        // --- Data ---
+        function openDataModal() {
+            const rate = Math.round((calculateScore()/db.meta.target)*100);
+            document.getElementById('data-today-val').innerText = rate + '%';
+            document.getElementById('data-modal').classList.add('active');
+            document.getElementById('history-view').style.display = 'none';
+            document.getElementById('btn-show-history').style.display = 'block';
+        }
+        function closeDataModal(e) { if(e.target.id==='data-modal') document.getElementById('data-modal').classList.remove('active'); }
+        function showHistory() {
+            document.getElementById('btn-show-history').style.display = 'none';
+            const hv = document.getElementById('history-view'); hv.style.display = 'block';
+            const dates = Object.keys(db.history).sort().slice(-7);
+            if(dates.length === 0) { hv.innerHTML = '<div style="color:#666">暂无历史数据</div>'; return; }
+            let totalRate = 0;
+            let html = dates.map(d => {
+                const r = db.history[d]; totalRate += r; const rPct = Math.round(r*100);
+                return `<div class="history-row"><span>${d.slice(5)}</span><div style="display:flex;align-items:center;gap:10px"><div class="bar-bg"><div class="bar-fill" style="width:${rPct}%"></div></div><span style="width:30px;text-align:right">${rPct}%</span></div></div>`;
+            }).join('');
+            const avg = totalRate / dates.length;
+            let roast = "";
+            if (avg < 0.4) roast = ROASTS_LOW[Math.floor(Math.random()*ROASTS_LOW.length)];
+            else if (avg < 0.7) roast = ROASTS_MID[Math.floor(Math.random()*ROASTS_MID.length)];
+            if (roast) html += `<div class="roast-text">“${roast}”</div>`;
+            hv.innerHTML = html;
         }
 
-        function moveItem(type, index, direction) { const arr = db.pool[type]; const newIndex = index + direction; if (newIndex >= 0) { [arr[index], arr[newIndex]] = [arr[newIndex], arr[index]]; saveDB(); renderPoolCols(); } }
-        function startPress(type, id, el) { pressTimer = setTimeout(() => { if(navigator.vibrate) navigator.vibrate(50); el.classList.add('deleting'); if(confirm("确定删除？")) delPool(type, id); el.classList.remove('deleting'); }, 600); }
-        function cancelPress() { clearTimeout(pressTimer); }
-        function addPoolItem(type) { const name = document.getElementById('pool-name').value.trim(); if(name) { db.pool[type].push({id: type[0]+Date.now(), name}); document.getElementById('pool-name').value = ''; saveDB(); renderPoolCols(); } }
-        function delPool(type, id) { db.pool[type] = db.pool[type].filter(i=>i.id!==id); saveDB(); renderPoolCols(); }
-
-        function openReportModal() {
-            const rate = calculateScore() / db.meta.target;
-            document.getElementById('report-score-val').innerText = Math.round(rate * 100) + '%';
-            document.getElementById('report-msg').innerText = rate >= 1 ? "今日已完美" : "继续保持节奏";
-            const s = db.meta.streak || 0;
-            const sEl = document.getElementById('streak-display');
-            if (s > 1) { sEl.innerText = `🔥 连续达成 ${s} 天`; sEl.style.display = 'block'; }
-            else sEl.style.display = 'none';
-            document.getElementById('report-modal').classList.add('active');
-        }
-        function closeReportModal(e) { if(e.target.id === 'report-modal') document.getElementById('report-modal').classList.remove('active'); }
-        function enterJudgment() {
-            const day = new Date().getDay();
-            if (day !== 0) return alert("🚫 裁决日未到（仅周日开启）。");
-            const rate = calculateScore() / db.meta.target;
-            let msg = `📊 审判周报\n\n`;
-            if (rate < 0.6) msg += `⚠️ 裁决：\n“${QUOTES.roast[Math.floor(Math.random() * QUOTES.roast.length)]}”`;
-            else msg += `✅ 裁决：\n“你掌控了自己，也就掌控了自由。”`;
-            alert(msg);
-        }
-
-        function pickToast(arr) { const t = document.getElementById('toast'); t.innerText = arr[Math.floor(Math.random() * arr.length)]; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
         function toggleArchive() { document.getElementById('archive-container').classList.toggle('open'); }
         function saveAndRender() { saveDB(); renderMain(); }
-        function saveDB() { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
     </script>
 </body>
 </html>
