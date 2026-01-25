@@ -1,4 +1,4 @@
-const CACHE_NAME = "micd-v19"; 
+const CACHE_NAME = "micd-v20"; 
 const ASSETS = [
   "./",
   "./index.html",
