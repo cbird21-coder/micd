@@ -1,4 +1,4 @@
-const CACHE_NAME = "micd-v20"; 
+const CACHE_NAME = "micd-v22"; // 升级版本号
 const ASSETS = [
   "./",
   "./index.html",

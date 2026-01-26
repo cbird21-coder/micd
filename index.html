@@ -30,6 +30,35 @@
         .btn-primary { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
         .btn-revive { border-color: #444; color: #666; font-size: 11px; padding: 4px 10px; }
         .btn-sort { padding: 4px 12px; font-size: 14px; color: #555; background: transparent; border: 1px solid #333; margin-left: 10px; border-radius: 4px; }
+        .btn-icon { background: transparent; border: none; padding: 5px; cursor: pointer; display: flex; align-items: center; }
+
+        /* --- 核心升级：自定义滑块样式 --- */
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent; margin: 10px 0;
+        }
+        input[type=range]:focus { outline: none; }
+        
+        /* 滑块轨道：混合图层实现填充和刻度 */
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 10px; cursor: pointer; border-radius: 5px;
+            border: 1px solid #333;
+            /* 图层1(上): 黑色刻度线，每12.5% (0.5/4) 一条 */
+            /* 图层2(下): 动态进度条，左边是主题色，右边是深灰 */
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent calc(12.5% - 1px), #000 calc(12.5% - 1px), #000 12.5%),
+                linear-gradient(90deg, var(--accent) var(--pct), #222 var(--pct));
+        }
+        
+        /* 滑块圆钮 */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 18px; width: 18px;
+            border-radius: 50%; background: #fff; 
+            border: 2px solid var(--accent);
+            margin-top: -5px; /* 垂直居中 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            transition: transform 0.1s;
+        }
+        input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2); }
 
         /* Gateway Modal */
         #gateway-modal { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; padding: 20px; transition: transform 0.4s ease; }
@@ -51,7 +80,6 @@
         h2 { font-size: 12px; color: #666; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
         .task-row { margin-bottom: 15px; padding-bottom: 5px; }
         .task-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; font-weight: 500; }
-        input[type=range] { width: 100%; height: 4px; accent-color: var(--accent); background: #333; border-radius: 2px; }
         
         .fixed-grid { display: flex; gap: 12px; margin-top: 10px; }
         .fixed-item { flex: 1; text-align: center; padding: 15px 0; background: #1a1a1a; border-radius: 8px; border: 1px solid var(--border); color: var(--success); font-size: 16px; font-weight: bold; transition: 0.3s; cursor: pointer; }
@@ -69,7 +97,7 @@
         .progress-line { flex: 1; height: 4px; background: #222; margin-right: 20px; border-radius: 2px; }
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--accent); }
 
-        /* 3. New Task Pool (Tabbed & Hidden) */
+        /* Task Pool */
         #pool-modal { position: fixed; inset: 0; background: var(--bg); z-index: 3000; display: flex; flex-direction: column; transform: translateY(100%); transition: 0.3s; }
         #pool-modal.active { transform: translateY(0); }
         .pool-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
@@ -77,24 +105,22 @@
         .pool-tabs { display: flex; border-top: 1px solid var(--border); background: var(--card); }
         .pool-tab { flex: 1; padding: 15px; text-align: center; color: #666; font-size: 14px; cursor: pointer; transition: 0.2s; }
         .pool-tab.active { color: var(--accent); font-weight: bold; background: rgba(255,255,255,0.05); border-top: 2px solid var(--accent); }
+        .pool-item-row { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid #222; font-size: 15px; }
+        .pool-text { flex: 1; margin-left: 10px; } 
         
-        .pool-item-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 10px; border-bottom: 1px solid #222; font-size: 15px; }
-        .pool-text { flex: 1; } 
-
-        /* Hidden Section */
         .hidden-section { margin-top: 20px; border-top: 1px dashed #333; }
-        .hidden-toggle { color: #666; font-size: 12px; padding: 10px; text-align: center; cursor: pointer; }
+        .hidden-toggle { color: #666; font-size: 12px; padding: 15px; text-align: center; cursor: pointer; }
         .hidden-list { display: none; background: #0f0f0f; }
         .hidden-list.open { display: block; }
-        .pool-item-row.hidden-item { opacity: 0.5; text-decoration: line-through; color: #666; }
+        .pool-item-row.hidden-item { opacity: 0.6; color: #666; }
+        .pool-item-row.hidden-item .pool-text { text-decoration: line-through; }
 
-        /* Custom Action Sheet */
+        /* Action Sheet */
         #action-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-radius: 16px 16px 0 0; z-index: 5000; transform: translateY(100%); transition: 0.3s; padding: 20px; border-top: 1px solid var(--border); box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
         #action-sheet.active { transform: translateY(0); }
         .sheet-title { text-align: center; color: #888; font-size: 13px; margin-bottom: 20px; }
         .sheet-btn { width: 100%; padding: 15px; border-radius: 8px; margin-bottom: 10px; font-size: 16px; font-weight: bold; border: none; cursor: pointer; }
         .btn-rename { background: var(--accent-dim); color: var(--accent); }
-        .btn-hide { background: #333; color: #ccc; }
         .btn-delete { background: var(--danger); color: #fff; }
         .btn-cancel { background: transparent; color: #666; border: 1px solid #333; }
         #sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 4999; display: none; }
@@ -103,7 +129,7 @@
         /* Data Modal */
         #data-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 4000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; }
         #data-modal.active { opacity: 1; pointer-events: auto; }
-        .data-card { background: var(--card); width: 85%; max-width: 320px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); text-align: center; }
+        .data-card { background: var(--card); width: 85%; max-width: 320px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); text-align: center; max-height: 80vh; overflow-y: auto; }
         .data-score { font-size: 56px; font-weight: bold; color: var(--accent); margin: 15px 0; font-family: monospace; }
         .history-chart { margin-top: 20px; padding-top: 20px; border-top: 1px solid #333; display: none; text-align: left; }
         .history-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: #888; }
@@ -206,7 +232,6 @@
     <div id="action-sheet">
         <div class="sheet-title" id="sheet-msg">操作选项</div>
         <button class="sheet-btn btn-rename" onclick="triggerRename()">修改名称 (Rename)</button>
-        <button class="sheet-btn btn-hide" id="btn-sheet-hide" onclick="confirmHide()">隐藏/冷藏</button>
         <button class="sheet-btn btn-delete" onclick="confirmDelete()">删除 (不可恢复)</button>
         <button class="sheet-btn btn-cancel" onclick="closeActionSheet()">取消</button>
     </div>
@@ -221,7 +246,8 @@
     </div>
 
     <script>
-        const DB_KEY = 'discipline_v19';
+        const DB_KEY = 'discipline_v22';
+        const WEIGHTS = { work: { weekday: 4, weekend: 2, holiday: 1 }, chore: { weekday: 2, weekend: 1, holiday: 1 }, fixed: 2 };
         const QUOTES_HIGH = ["质变时刻：你正在重塑大脑回路。", "就是这种感觉，保持住。", "平凡与卓越的分界线就在此刻。"];
         const ROASTS_LOW = ["你的计划是写在水上的吗？", "间歇性踌躇满志，持续性混吃等死。", "今天的你，配不上明天的梦想。"];
         const ROASTS_MID = ["还在舒适区里打转？", "不痛不痒的努力，感动了谁？", "差一点，就是差很多。"];
@@ -237,6 +263,10 @@
         let actionTargetId = null;
         let pressTimer = null;
         let stopLossTimer = null;
+
+        // Icons - High contrast Eye (Color Fixed to accent/gray)
+        const ICON_EYE_OPEN = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+        const ICON_EYE_CLOSED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
 
         window.onload = () => {
             const saved = localStorage.getItem(DB_KEY);
@@ -270,6 +300,7 @@
         }
         function saveDB() { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
         function applyTheme(mode) { document.body.className = `mode-${mode}`; }
+        function sanitize(str) { return str.replace(/[<>]/g, ''); }
 
         // --- Gateway ---
         function checkModeSelection(mode) {
@@ -302,13 +333,11 @@
             document.getElementById('gateway-work-list').innerHTML = db.pool.work.filter(i=>!i.hidden).map(i => mkItem(i, 'work', tempSel.workIds)).join('');
             document.getElementById('gateway-chore-list').innerHTML = db.pool.chore.filter(i=>!i.hidden).map(i => mkItem(i, 'chore', tempSel.choreIds)).join('');
         }
-        
         function toggleSel(type, id, el) { 
             const set = type === 'work' ? tempSel.workIds : tempSel.choreIds; 
             if(set.has(id)) set.delete(id); else set.add(id);
             setMode(db.meta.mode, db.meta.target, db.meta.reqChores); 
         }
-
         function confirmGateway() {
             db.today.work = db.pool.work.filter(i => tempSel.workIds.has(i.id)).map(i => ({...i, val:0, done:false}));
             db.today.chores = db.pool.chore.filter(i => tempSel.choreIds.has(i.id)).map(i => ({...i, done:false}));
@@ -320,16 +349,21 @@
         function renderMain() {
             if(db.today.givenUp) document.body.style.filter = "grayscale(1)";
             const activeW = db.today.work.filter(w => !w.done);
-            document.getElementById('main-work-list').innerHTML = activeW.map(w => `
+            document.getElementById('main-work-list').innerHTML = activeW.map(w => {
+                // Calculate percentage for CSS fill logic
+                const pct = (w.val / 4) * 100;
+                return `
                 <div class="task-row work-task">
                     <div class="task-header"><span class="font-work">${w.name}</span><span>${w.val}h</span></div>
                     <div style="display:flex; gap:10px; align-items:center">
-                        <input type="range" min="0" max="5" step="0.5" value="${w.val}" 
-                               oninput="this.parentNode.previousElementSibling.lastElementChild.innerText=this.value+'h'"
+                        <input type="range" max="4" step="0.5" value="${w.val}" 
+                               style="--pct: ${pct}%"
+                               oninput="this.style.setProperty('--pct', (this.value/4)*100 + '%'); this.parentNode.previousElementSibling.lastElementChild.innerText=this.value+'h'"
                                onchange="updateVal('${w.id}', this.value)">
                         <button class="btn btn-primary" onclick="finishWork('${w.id}')">Done</button>
                     </div>
-                </div>`).join('');
+                </div>`
+            }).join('');
             document.getElementById('empty-work').classList.toggle('hidden', activeW.length > 0);
 
             const activeC = db.today.chores.filter(c => !c.done);
@@ -365,10 +399,10 @@
 
         function calculateScore() {
             let s = 0; const mode = db.meta.mode;
-            const wt = (mode==='weekday')?4:(mode==='weekend'?2:1); const ct = (mode==='weekday')?2:1;
+            const wt = WEIGHTS.work[mode]; const ct = WEIGHTS.chore[mode];
             const aw = db.today.work.filter(w=>w.done).reduce((a,b)=>a+b.val,0); s += Math.min(aw, wt);
             const ac = db.today.chores.filter(c=>c.done).length; s += Math.min(ac, ct);
-            const af = Object.values(db.today.fixed).filter(v=>v).length; s += Math.min(af, 2);
+            const af = Object.values(db.today.fixed).filter(v=>v).length; s += Math.min(af, WEIGHTS.fixed);
             return s;
         }
 
@@ -385,7 +419,7 @@
 
         // --- Task Pool ---
         function openPoolModal() { currentPoolTab='work'; renderPoolList(); document.getElementById('pool-modal').classList.add('active'); }
-        function closePoolModal() { document.getElementById('pool-modal').classList.remove('active'); }
+        function closePoolModal() { document.getElementById('pool-modal').classList.remove('active'); if(!db.setupComplete) renderGatewayList(); }
         function switchPoolTab(type) { currentPoolTab = type; document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active')); document.getElementById('tab-'+type).classList.add('active'); renderPoolList(); }
         
         function renderPoolList() {
@@ -396,9 +430,10 @@
 
             let html = activeItems.map((i, idx) => `
                 <div class="pool-item-row" id="item-${i.id}"
-                     ontouchstart="startPress('${i.id}', false)" ontouchend="cancelPress()" 
-                     onmousedown="startPress('${i.id}', false)" onmouseup="cancelPress()"
+                     ontouchstart="startPress('${i.id}')" ontouchend="cancelPress()" 
+                     onmousedown="startPress('${i.id}')" onmouseup="cancelPress()"
                      oncontextmenu="return false;">
+                    <button class="btn-icon" onclick="toggleHide('${i.id}')">${ICON_EYE_OPEN}</button>
                     <div class="pool-text ${isWork?'font-work':''}">${i.name}</div>
                     ${idx>0 ? `<button class="btn-sort" onclick="moveItem(${idx}, -1)">↑</button>` : ''}
                 </div>`).join('');
@@ -406,12 +441,11 @@
             if (hiddenItems.length > 0) {
                 html += `
                 <div class="hidden-section">
-                    <div class="hidden-toggle" onclick="toggleHiddenList()">▼ 查看已隐藏 (${hiddenItems.length})</div>
+                    <div class="hidden-toggle" onclick="toggleHiddenList()">▼ 已隐藏 (${hiddenItems.length})</div>
                     <div class="hidden-list" id="hidden-list-view">
                         ${hiddenItems.map(i => `
-                            <div class="pool-item-row hidden-item"
-                                 ontouchstart="startPress('${i.id}', true)" ontouchend="cancelPress()" 
-                                 onmousedown="startPress('${i.id}', true)" onmouseup="cancelPress()">
+                            <div class="pool-item-row hidden-item">
+                                <button class="btn-icon" onclick="toggleHide('${i.id}')">${ICON_EYE_CLOSED}</button>
                                 <div>${i.name}</div>
                             </div>`).join('')}
                     </div>
@@ -423,7 +457,7 @@
         function toggleHiddenList() { document.getElementById('hidden-list-view').classList.toggle('open'); }
         function addNewToPool() {
             const val = document.getElementById('pool-input').value.trim();
-            if(val) { db.pool[currentPoolTab].push({id: currentPoolTab[0]+Date.now(), name: val, hidden: false}); document.getElementById('pool-input').value = ''; saveDB(); renderPoolList(); }
+            if(val) { db.pool[currentPoolTab].push({id: currentPoolTab[0]+Date.now(), name: sanitize(val), hidden: false}); document.getElementById('pool-input').value = ''; saveDB(); renderPoolList(); }
         }
         function moveItem(idx, dir) {
             const arr = db.pool[currentPoolTab];
@@ -435,33 +469,30 @@
                 saveDB(); renderPoolList();
             }
         }
+        function toggleHide(id) { const item = db.pool[currentPoolTab].find(i=>i.id===id); if(item) { item.hidden = !item.hidden; saveDB(); renderPoolList(); } }
 
-        // --- Rename Logic ---
         function triggerRename() {
             closeActionSheet();
             const item = db.pool[currentPoolTab].find(i=>i.id===actionTargetId);
             if (!item) return;
             const newName = prompt("修改名称：", item.name);
-            if (newName && newName.trim() !== "") { item.name = newName.trim(); saveDB(); renderPoolList(); }
+            if (newName && newName.trim() !== "") { item.name = sanitize(newName.trim()); saveDB(); renderPoolList(); }
         }
 
         // Action Sheet
-        function startPress(id, isHidden) { 
+        function startPress(id) { 
             pressTimer = setTimeout(() => { 
-                actionTargetId = id; actionIsHidden = isHidden;
+                actionTargetId = id; 
                 if(navigator.vibrate) navigator.vibrate(50); 
-                document.getElementById('btn-sheet-hide').innerText = isHidden ? "恢复 (Unhide)" : "隐藏 (Hide)";
-                document.getElementById('sheet-msg').innerText = isHidden ? "恢复此任务到可选列表？" : "将此任务折叠隐藏？";
                 document.getElementById('action-sheet').classList.add('active'); 
                 document.getElementById('sheet-overlay').classList.add('active'); 
             }, 600); 
         }
         function cancelPress() { clearTimeout(pressTimer); }
         function closeActionSheet() { document.getElementById('action-sheet').classList.remove('active'); document.getElementById('sheet-overlay').classList.remove('active'); }
-        function confirmHide() { const item = db.pool[currentPoolTab].find(i=>i.id===actionTargetId); if(item) { item.hidden = !item.hidden; saveDB(); renderPoolList(); } closeActionSheet(); }
         function confirmDelete() { db.pool[currentPoolTab] = db.pool[currentPoolTab].filter(i=>i.id!==actionTargetId); saveDB(); renderPoolList(); closeActionSheet(); }
 
-        // --- Stop Loss ---
+        // Stop Loss
         function handleStopLoss() {
             if (db.today.givenUp) return;
             const btn = document.getElementById('btn-giveup');
@@ -487,7 +518,7 @@
             stopLossTimer = setInterval(updateStopLossBtn, 1000);
         }
 
-        // --- Data ---
+        // Data Modal
         function openDataModal() {
             const rate = Math.round((calculateScore()/db.meta.target)*100);
             document.getElementById('data-today-val').innerText = rate + '%';
