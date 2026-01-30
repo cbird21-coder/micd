@@ -12,7 +12,7 @@
         :root {
             --bg: #050505; --card: #121212; --text: #d4d4d4;
             --accent: #bb86fc; --accent-dim: rgba(187,134,252,0.15);
-            --danger: #cf6679; --success: #03dac6; --border: #222;
+            --danger: #cf6679; --success: #03dac6; --warning: #ff9800; --border: #222;
         }
         body.mode-weekend { --bg: #0c0a05; --card: #161410; --accent: #d4af37; --accent-dim: rgba(212, 175, 55, 0.15); --success: #aebc55; }
         body.mode-holiday { --bg: #020d0d; --card: #081414; --accent: #80cbc4; --accent-dim: rgba(128, 203, 196, 0.15); --success: #4db6ac; }
@@ -25,42 +25,28 @@
         .marquee-text { position: absolute; white-space: nowrap; line-height: 36px; color: var(--accent); font-size: 13px; letter-spacing: 1px; animation: scroll 30s linear infinite; }
         @keyframes scroll { from { left: 100%; } to { left: -100%; } }
 
-        /* Buttons */
         .btn { border: 1px solid #333; background: #1a1a1a; color: #888; padding: 6px 14px; border-radius: 4px; font-size: 13px; cursor: pointer; transition: 0.2s; }
         .btn-primary { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
         .btn-revive { border-color: #444; color: #666; font-size: 11px; padding: 4px 10px; }
         .btn-sort { padding: 4px 12px; font-size: 14px; color: #555; background: transparent; border: 1px solid #333; margin-left: 10px; border-radius: 4px; }
         .btn-icon { background: transparent; border: none; padding: 5px; cursor: pointer; display: flex; align-items: center; }
 
-        /* --- 核心升级：自定义滑块样式 --- */
-        input[type=range] {
-            -webkit-appearance: none; width: 100%; background: transparent; margin: 10px 0;
-        }
+        /* Custom Slider */
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; margin: 10px 0; }
         input[type=range]:focus { outline: none; }
-        
-        /* 滑块轨道：混合图层实现填充和刻度 */
         input[type=range]::-webkit-slider-runnable-track {
-            width: 100%; height: 10px; cursor: pointer; border-radius: 5px;
-            border: 1px solid #333;
-            /* 图层1(上): 黑色刻度线，每12.5% (0.5/4) 一条 */
-            /* 图层2(下): 动态进度条，左边是主题色，右边是深灰 */
+            width: 100%; height: 10px; cursor: pointer; border-radius: 5px; border: 1px solid #333;
             background-image: 
                 repeating-linear-gradient(90deg, transparent, transparent calc(12.5% - 1px), #000 calc(12.5% - 1px), #000 12.5%),
                 linear-gradient(90deg, var(--accent) var(--pct), #222 var(--pct));
         }
-        
-        /* 滑块圆钮 */
         input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none; height: 18px; width: 18px;
-            border-radius: 50%; background: #fff; 
-            border: 2px solid var(--accent);
-            margin-top: -5px; /* 垂直居中 */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: #fff; 
+            border: 2px solid var(--accent); margin-top: -5px; box-shadow: 0 2px 5px rgba(0,0,0,0.5);
             transition: transform 0.1s;
         }
         input[type=range]:active::-webkit-slider-thumb { transform: scale(1.2); }
 
-        /* Gateway Modal */
         #gateway-modal { position: fixed; inset: 0; background: var(--bg); z-index: 2000; display: flex; flex-direction: column; padding: 20px; transition: transform 0.4s ease; }
         #gateway-modal.closed { transform: translateY(-100%); pointer-events: none; }
         .gateway-header { font-size: 18px; color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
@@ -74,30 +60,25 @@
         .select-item.penalty { background: rgba(207, 102, 121, 0.15); border-left: 3px solid var(--danger); pointer-events: none; }
         .select-item.penalty span { color: var(--danger); font-weight: bold; }
 
-        /* Main View */
         #main-view { flex: 1; overflow-y: auto; padding: 15px 15px 180px 15px; }
         section { background: var(--card); border-radius: 12px; padding: 18px; margin-bottom: 18px; border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         h2 { font-size: 12px; color: #666; margin: 0 0 15px 0; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
         .task-row { margin-bottom: 15px; padding-bottom: 5px; }
         .task-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; font-weight: 500; }
-        
         .fixed-grid { display: flex; gap: 12px; margin-top: 10px; }
         .fixed-item { flex: 1; text-align: center; padding: 15px 0; background: #1a1a1a; border-radius: 8px; border: 1px solid var(--border); color: var(--success); font-size: 16px; font-weight: bold; transition: 0.3s; cursor: pointer; }
         .fixed-item.done { background: transparent; color: #444; text-decoration: line-through; border-color: transparent; transform: scale(0.95); opacity: 0.6; }
         .fixed-item.excess { opacity: 0.15 !important; filter: grayscale(1) !important; }
-
         .archive-section { margin-top: 30px; border-top: 1px dashed #333; padding-top: 15px; }
         .archive-header { font-size: 12px; color: #555; cursor: pointer; display: flex; align-items: center; gap: 5px; padding: 10px 0; }
         .archive-list { display: none; padding-left: 5px; }
         .archive-list.open { display: block; animation: slideDown 0.3s; }
         .archived-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; color: #555; font-size: 13px; text-decoration: line-through; }
 
-        /* Nav */
         .nav-bar { position: fixed; bottom: 0; width: 100%; background: rgba(0,0,0,0.95); border-top: 1px solid var(--border); padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; z-index: 1000; }
         .progress-line { flex: 1; height: 4px; background: #222; margin-right: 20px; border-radius: 2px; }
         .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; box-shadow: 0 0 10px var(--accent); }
 
-        /* Task Pool */
         #pool-modal { position: fixed; inset: 0; background: var(--bg); z-index: 3000; display: flex; flex-direction: column; transform: translateY(100%); transition: 0.3s; }
         #pool-modal.active { transform: translateY(0); }
         .pool-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
@@ -107,7 +88,6 @@
         .pool-tab.active { color: var(--accent); font-weight: bold; background: rgba(255,255,255,0.05); border-top: 2px solid var(--accent); }
         .pool-item-row { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid #222; font-size: 15px; }
         .pool-text { flex: 1; margin-left: 10px; } 
-        
         .hidden-section { margin-top: 20px; border-top: 1px dashed #333; }
         .hidden-toggle { color: #666; font-size: 12px; padding: 15px; text-align: center; cursor: pointer; }
         .hidden-list { display: none; background: #0f0f0f; }
@@ -115,7 +95,6 @@
         .pool-item-row.hidden-item { opacity: 0.6; color: #666; }
         .pool-item-row.hidden-item .pool-text { text-decoration: line-through; }
 
-        /* Action Sheet */
         #action-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a1a; border-radius: 16px 16px 0 0; z-index: 5000; transform: translateY(100%); transition: 0.3s; padding: 20px; border-top: 1px solid var(--border); box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
         #action-sheet.active { transform: translateY(0); }
         .sheet-title { text-align: center; color: #888; font-size: 13px; margin-bottom: 20px; }
@@ -126,7 +105,6 @@
         #sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 4999; display: none; }
         #sheet-overlay.active { display: block; }
 
-        /* Data Modal */
         #data-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 4000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: 0.3s; }
         #data-modal.active { opacity: 1; pointer-events: auto; }
         .data-card { background: var(--card); width: 85%; max-width: 320px; padding: 25px; border-radius: 16px; border: 1px solid var(--border); text-align: center; max-height: 80vh; overflow-y: auto; }
@@ -136,6 +114,8 @@
         .bar-bg { width: 100px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
         .bar-fill { height: 100%; background: var(--accent); }
         .roast-text { margin-top: 15px; font-size: 12px; color: var(--danger); font-style: italic; text-align: center; border: 1px dashed #333; padding: 10px; border-radius: 6px; }
+        .bias-warning { color: var(--warning); font-size: 12px; margin-top: 5px; font-weight: bold; }
+        .burnout-warning { color: var(--danger); font-size: 14px; margin-top: 15px; padding: 10px; border: 1px solid var(--danger); border-radius: 8px; }
 
         #toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(20px); background: rgba(30,30,30,0.95); backdrop-filter: blur(10px); border: 1px solid var(--accent); color: var(--accent); padding: 12px 24px; border-radius: 30px; font-size: 13px; opacity: 0; pointer-events: none; transition: 0.4s; white-space: nowrap; z-index: 5000; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
         #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -240,13 +220,15 @@
         <div class="data-card">
             <div style="color:#666; font-size:12px; letter-spacing:1px">今日完成度</div>
             <div class="data-score" id="data-today-val">0%</div>
-            <button class="btn" id="btn-show-history" style="margin-top:10px; width:100%" onclick="showHistory()">查看近七天走势</button>
+            <div id="today-bias-msg" class="bias-warning"></div>
+            
+            <button class="btn" id="btn-show-history" style="margin-top:15px; width:100%" onclick="showHistory()">查看近七天走势</button>
             <div class="history-chart" id="history-view"></div>
         </div>
     </div>
 
     <script>
-        const DB_KEY = 'discipline_v22';
+        const DB_KEY = 'discipline_v23';
         const WEIGHTS = { work: { weekday: 4, weekend: 2, holiday: 1 }, chore: { weekday: 2, weekend: 1, holiday: 1 }, fixed: 2 };
         const QUOTES_HIGH = ["质变时刻：你正在重塑大脑回路。", "就是这种感觉，保持住。", "平凡与卓越的分界线就在此刻。"];
         const ROASTS_LOW = ["你的计划是写在水上的吗？", "间歇性踌躇满志，持续性混吃等死。", "今天的你，配不上明天的梦想。"];
@@ -264,8 +246,7 @@
         let pressTimer = null;
         let stopLossTimer = null;
 
-        // Icons - High contrast Eye (Color Fixed to accent/gray)
-        const ICON_EYE_OPEN = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+        const ICON_EYE_OPEN = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#bb86fc" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
         const ICON_EYE_CLOSED = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
 
         window.onload = () => {
@@ -285,6 +266,11 @@
                 if(db.today.stopLossStart > 0) startStopLossTimer();
             }
             if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+            
+            // Re-render on app resume
+            document.addEventListener("visibilitychange", () => {
+                if (!document.hidden) renderMain();
+            });
         };
 
         // --- Core ---
@@ -350,7 +336,6 @@
             if(db.today.givenUp) document.body.style.filter = "grayscale(1)";
             const activeW = db.today.work.filter(w => !w.done);
             document.getElementById('main-work-list').innerHTML = activeW.map(w => {
-                // Calculate percentage for CSS fill logic
                 const pct = (w.val / 4) * 100;
                 return `
                 <div class="task-row work-task">
@@ -418,9 +403,18 @@
         function showToast(msg) { const t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000); }
 
         // --- Task Pool ---
-        function openPoolModal() { currentPoolTab='work'; renderPoolList(); document.getElementById('pool-modal').classList.add('active'); }
+        function openPoolModal() { 
+            currentPoolTab='work'; // Force reset
+            switchPoolTab('work');
+            document.getElementById('pool-modal').classList.add('active'); 
+        }
         function closePoolModal() { document.getElementById('pool-modal').classList.remove('active'); if(!db.setupComplete) renderGatewayList(); }
-        function switchPoolTab(type) { currentPoolTab = type; document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active')); document.getElementById('tab-'+type).classList.add('active'); renderPoolList(); }
+        function switchPoolTab(type) { 
+            currentPoolTab = type; 
+            document.querySelectorAll('.pool-tab').forEach(t => t.classList.remove('active')); 
+            document.getElementById('tab-'+type).classList.add('active'); 
+            renderPoolList(); 
+        }
         
         function renderPoolList() {
             const list = db.pool[currentPoolTab];
@@ -518,30 +512,55 @@
             stopLossTimer = setInterval(updateStopLossBtn, 1000);
         }
 
-        // Data Modal
+        // Data Modal with Bias & Burnout Detection
         function openDataModal() {
-            const rate = Math.round((calculateScore()/db.meta.target)*100);
-            document.getElementById('data-today-val').innerText = rate + '%';
+            const rate = calculateScore() / db.meta.target;
+            document.getElementById('data-today-val').innerText = Math.round(rate * 100) + '%';
+            
+            // Bias Detection
+            const mode = db.meta.mode;
+            const wScore = db.today.work.filter(w=>w.done).reduce((a,b)=>a+b.val,0) / WEIGHTS.work[mode];
+            const cScore = db.today.chores.filter(c=>c.done).length / WEIGHTS.chore[mode];
+            let biasMsg = "";
+            if (wScore > 0.8 && cScore < 0.2) biasMsg = "⚠️ 警报：严重偏科 (工作狂)";
+            else if (cScore > 0.8 && wScore < 0.2) biasMsg = "⚠️ 警报：严重偏科 (逃避困难)";
+            document.getElementById('today-bias-msg').innerText = biasMsg;
+
             document.getElementById('data-modal').classList.add('active');
             document.getElementById('history-view').style.display = 'none';
             document.getElementById('btn-show-history').style.display = 'block';
         }
         function closeDataModal(e) { if(e.target.id==='data-modal') document.getElementById('data-modal').classList.remove('active'); }
+        
         function showHistory() {
             document.getElementById('btn-show-history').style.display = 'none';
             const hv = document.getElementById('history-view'); hv.style.display = 'block';
             const dates = Object.keys(db.history).sort().slice(-7);
+            
             if(dates.length === 0) { hv.innerHTML = '<div style="color:#666">暂无历史数据</div>'; return; }
+            
             let totalRate = 0;
+            let streak7 = 0;
             let html = dates.map(d => {
-                const r = db.history[d]; totalRate += r; const rPct = Math.round(r*100);
+                const r = db.history[d]; 
+                totalRate += r;
+                if(r >= 1) streak7++;
+                const rPct = Math.round(r*100);
                 return `<div class="history-row"><span>${d.slice(5)}</span><div style="display:flex;align-items:center;gap:10px"><div class="bar-bg"><div class="bar-fill" style="width:${rPct}%"></div></div><span style="width:30px;text-align:right">${rPct}%</span></div></div>`;
             }).join('');
+
             const avg = totalRate / dates.length;
+            // 7-Day Average Header
+            html = `<div style="text-align:center;font-size:14px;color:#888;margin-bottom:15px">七日均分 <span style="color:#fff;font-weight:bold">${Math.round(avg*100)}%</span></div>` + html;
+
+            // Burnout / Roast
             let roast = "";
-            if (avg < 0.4) roast = ROASTS_LOW[Math.floor(Math.random()*ROASTS_LOW.length)];
-            else if (avg < 0.7) roast = ROASTS_MID[Math.floor(Math.random()*ROASTS_MID.length)];
-            if (roast) html += `<div class="roast-text">“${roast}”</div>`;
+            if (streak7 >= 7) html += `<div class="burnout-warning">🛑 警报：精神紧绷，请强制休息</div>`;
+            else {
+                if (avg < 0.4) roast = ROASTS_LOW[Math.floor(Math.random()*ROASTS_LOW.length)];
+                else if (avg < 0.7) roast = ROASTS_MID[Math.floor(Math.random()*ROASTS_MID.length)];
+                if (roast) html += `<div class="roast-text">“${roast}”</div>`;
+            }
             hv.innerHTML = html;
         }
 
